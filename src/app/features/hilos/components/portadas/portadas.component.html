@@ -1,0 +1,41 @@
+<div 
+    class="
+        grid 
+        gap-1 
+        auto-rows-min 
+        grid-cols-2 
+        sm:grid-cols-3 
+        md:grid-cols-4 
+        lg:grid-cols-5 
+        xl:grid-cols-6 
+        min-h-screen 
+        px-1 
+        py-1"
+    >
+    @for (portada of portadas(); track $index) {
+        <hilos-portada 
+            [portada]="portada"
+            class="
+                h-[50vw] 
+                sm:h-[calc(100vw/3)] 
+                md:h-[calc(100vw/4)] 
+                lg:h-[calc(100vw/5)] 
+                xl:h-[calc(100vw/6)]
+            "   
+        ></hilos-portada>
+    }
+
+    @if(true || cargando()){
+        @for (_ of [].constructor(5); track $index) {
+          <app-portada-skeleton
+          class="
+          h-[50vw] 
+          sm:h-[calc(100vw/3)] 
+          md:h-[calc(100vw/4)] 
+          lg:h-[calc(100vw/5)] 
+          xl:h-[calc(100vw/6)]
+          "   
+          />
+        }
+    }
+</div>

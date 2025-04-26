@@ -1,0 +1,8 @@
+<button class="size-10 text-xl" (click)="toggleMenu()">
+    <i class="fa-solid fa-bars"></i>
+</button>
+
+@if (mostrarMenu()) {
+    <div class="fixed top-0 left-0 w-full h-full bg-gray-900 opacity-50 z-50" (click)="toggleMenu()"> </div>
+    <div class="fixed top-0 w-2xs h-full bg-red-400 right-0 z-51"></div>
+}

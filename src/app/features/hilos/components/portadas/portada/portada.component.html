@@ -1,0 +1,39 @@
+<a href="google.com">
+    <div class="overflow-hidden h-full w-full relative rounded-md">
+        <div 
+            [ngClass]="{ 'blur-md': portada().miniatura.spoiler }" 
+            class="w-full h-full bg-cover" 
+            [style.backgroundImage]="'url(' + portada().miniatura.url + ')'">
+        </div>
+
+        <div class="absolute top-0 p-1 fade-gradient h-full w-full flex flex-col justify-between">
+            <div class="flex flex-wrap gap-[0.125rem] text-white text-sm">
+                <span class="tag bg-subcategoria-tag">{{ this.portada().subcategoria }}</span> 
+            
+                @if (portada().es_nuevo) {
+                    <span class="tag bg-nuevo-tag">Nuevo</span>
+                }
+            
+                @if(true || portada().banderas.es_sticky) {
+                    <span class="tag-icon bg-yellow-500">
+                        <i class="fa-solid fa-thumbtack"></i>
+                    </span>
+                }
+
+                @if (portada().banderas.dados_activado) {
+                    <span class="tag-icon bg-generic-portada-icon size-5"><i class="fa-solid fa-dice-two"></i></span>
+                }
+
+                @if(portada().banderas.tiene_encuesta) {
+                    <span class="tag-icon bg-generic-portada-icon size-5"><i class="fa-solid fa-poll"></i></span>
+                }
+
+                @if (portada().banderas.id_unico_activado) {
+                    <span class="tag-icon bg-generic-portada-icon size-5"><i class="fa-solid fa-hashtag"></i></span>
+                }
+            </div>
+
+            <span class="text-lg font-semibold line-clamp-2 text-white">{{ this.portada().titulo }}</span>
+        </div>
+    </div>
+</a>

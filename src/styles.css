@@ -1,1 +1,53 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+@import "tailwindcss";
+
+@tailwind utilities;
+
+@theme {
+    --light-background: #ffffff;
+    --light-primary-text:#000000;
+    --light-secondary-text: #555555;
+
+    --light-muted-background: #f0f0f0;
+    --light-muted-text: #888888;
+    --color-mint-500: oklch(0.72 0.11 178);
+
+
+    --color-subcategoria-tag: var(--color-green-500);
+    --color-nuevo-tag: var(--color-blue-500);
+
+    --color-generic-portada-icon: var(--color-blue-500);
+
+    --color-light-skeleton-background: var(--color-stone-200);
+    --color-light-on-skeleton-background: var(--color-white);
+
+    --color-light-button: var(--color-stone-700);
+    --color-light-on-button: var(--color-white);
+}
+
+@layer utilities {
+    .tag {
+        @apply px-1 font-semibold rounded-md leading-5;
+    }
+
+    .tag-icon {
+        @apply size-5 rounded-md flex items-center justify-center;
+    }
+
+    .skeleton {
+        @apply animate-pulse bg-light-on-skeleton-background;
+    }
+
+    .icon-button {
+        @apply  bg-light-button text-light-on-button rounded-md p-2;
+    }
+}
+
+.fade-gradient {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
