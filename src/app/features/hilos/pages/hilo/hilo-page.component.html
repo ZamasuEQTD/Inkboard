@@ -1,0 +1,31 @@
+<div class="h-screen flex flex-col justify-between"> 
+    <div class="
+        grow
+        flex 
+        flex-col 
+        sm:flex-row
+        sm:w-full
+        sm:h-full
+        overflow-y-auto
+        sm:overflow-y-hidden
+        "
+        >
+
+        <hilo-body 
+            class="
+            w-full
+            sm:w-[45%]"
+
+            [hilo]="hilo"
+        />
+    
+        <hilo-comentarios 
+            class="sm:flex-1"
+            [hilo]="hilo" 
+            [cargandoComentarios]="cargandoHilo || cargandoComentarios" 
+            [comentarios]="comentarios"
+        />
+    </div>
+    
+    <comentar-hilo class="sm:hidden"></comentar-hilo>
+</div>

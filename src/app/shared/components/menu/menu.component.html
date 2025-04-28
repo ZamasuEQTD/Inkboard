@@ -1,0 +1,83 @@
+<div class="p-2 rounded-md bg-white shadow-lg min-w-[188px] max-w-[320px] border border-[oklab(0.678888_0.00325716_-0.011175/0.278431)]">
+           
+    <!-- <div>
+        <div class="p-2 flex flex-row justify-between hover:bg-gray-200/50 rounded-sm items-center">
+            <span class="text-sm font-[500] text-[oklab(0.310123_0.00108959_-0.00894994)]">Desactivar notificaciones</span>
+
+            <div class="text-[oklab(0.491651_0.00312106_-0.0155715)]">
+                <i class="fas fa-bell"></i>
+            </div>
+        </div>
+
+        <div class="p-2 flex flex-row justify-between hover:bg-gray-200/50 rounded-sm items-center">
+            <span class="text-sm font-[500] text-[oklab(0.310123_0.00108959_-0.00894994)]">Destacar</span>
+
+            <div class="text-[oklab(0.491651_0.00312106_-0.0155715)]">
+                <i class="fas fa-hashtag"></i>
+            </div>
+        </div>
+    </div>
+    <div class="h-[1px] w-full my-2 bg-[oklab(0.678888_0.00325716_-0.011175/0.278431)]"></div>
+   
+    <div>
+    <div class="p-2 flex flex-row justify-between hover:bg-gray-200/50 rounded-sm items-center">
+        <span class="text-sm font-[500] text-[oklab(0.310123_0.00108959_-0.00894994)]">Denunciar</span>
+
+        <div class="text-[oklab(0.491651_0.00312106_-0.0155715)]">
+            <i class="fas fa-trash-alt"></i>
+        </div>
+    </div>
+
+    <div class="p-2 flex flex-row justify-between hover:bg-gray-200/50 rounded-sm items-center">
+        <span class="text-sm font-[500] text-[oklab(0.310123_0.00108959_-0.00894994)]">Ver respuestas</span>
+
+        <div class="text-[oklab(0.491651_0.00312106_-0.0155715)]">
+            <i class="fas fa-hashtag"></i>
+        </div>
+    </div>
+   </div>
+
+
+   <div >
+
+    <div class="p-2 flex flex-row justify-between hover:bg-gray-200/50 rounded-sm items-center">
+        <span class="text-sm font-[500] text-[oklab(0.310123_0.00108959_-0.00894994)]">Ver usuario</span>
+
+        <div class="text-[oklab(0.491651_0.00312106_-0.0155715)]">
+            <i class="fas fa-user"></i>
+        </div>
+    </div>
+
+   </div>
+
+     -->
+
+    @for (grupo of grupos(); track $index) {
+        <div class="group">
+            @for (item of grupo.items; track $index) {
+                <div
+                    class="
+                        p-2 flex 
+                        flex-row 
+                        hover:bg-gray-200/50 
+                        justify-between 
+                        rounded-sm 
+                        items-center
+                    " (click)="item.onTap?.()">
+                    <span class="text-sm font-[500] text-[oklab(0.310123_0.00108959_-0.00894994)]">{{item.label}}</span>
+            
+                    @if (item.icon) {
+                        <div class="text-[oklab(0.491651_0.00312106_-0.0155715)] ml-2">
+                            <i class="{{item.icon}}"></i>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        @if(grupo.separator && !$last){
+            <div class="h-[1px] w-full my-2 bg-[oklab(0.678888_0.00325716_-0.011175/0.278431)]"></div>
+        }
+    }
+   
+</div>

@@ -1,0 +1,18 @@
+@if (this.esDimensionable()) {
+   <div class="relative">
+    <div [style]="{
+        'max-width': this.dimensionbleOptions()?.size?.maxWidth,
+        'max-height': this.dimensionbleOptions()?.size?.maxHeight
+      }">
+        @if(this.esImagen) {
+            <img [src]="this.media().url" alt="">
+        }
+
+        @if (this.esVideo) {
+            <video [src]="this.media().url" controls="controls" [poster]="this.media().previsualizacion"></video>
+        }
+    </div>
+
+    <ng-content select="[dimensionable]"></ng-content>
+   </div>
+}

@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@tailwind utilities;
+
+@layer utilities {
+    .hilo-icon-feature {
+        @apply p-2 rounded-lg size-10 hover:bg-gray-300/50
+    }
+}

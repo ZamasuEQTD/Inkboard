@@ -22,7 +22,7 @@
     --color-light-skeleton-background: var(--color-stone-200);
     --color-light-on-skeleton-background: var(--color-white);
 
-    --color-light-button: var(--color-stone-700);
+    --color-light-button: var(--color-stone-900);
     --color-light-on-button: var(--color-white);
 }
 
@@ -42,6 +42,19 @@
     .icon-button {
         @apply  bg-light-button text-light-on-button rounded-md p-2;
     }
+
+    .outlined-white-button {
+        @apply  border border-white text-white rounded-xl font-light px-4 py-2;
+    }
+
+
+    input, textarea {
+        @apply border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 px-3 py-2 outline-none;
+      }
+    
+      textarea {
+        @apply resize-none;
+      }
 }
 
 .fade-gradient {
