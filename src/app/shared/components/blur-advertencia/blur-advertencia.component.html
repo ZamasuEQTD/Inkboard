@@ -1,0 +1,13 @@
+<div class="relative size-full">
+    <ng-content></ng-content>
+
+    @if (spoiler()) {
+    <div
+      class="absolute top-0 left-0 bg-black/45 backdrop-blur-xl w-full h-full flex justify-center items-center p-2"
+    >
+      <button class="outlined-white-button" (click)="toggleSpoiler()">
+        <span>Ver contenido</span>
+      </button>
+    </div>
+    }
+  </div>
