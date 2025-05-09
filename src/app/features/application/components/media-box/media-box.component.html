@@ -1,9 +1,11 @@
 @if (this.esDimensionable()) {
    <div class="relative">
-    <div [style]="{
-        'max-width': this.dimensionbleOptions()?.size?.maxWidth,
-        'max-height': this.dimensionbleOptions()?.size?.maxHeight
-      }">
+    <div 
+        [className]="this.dimensionbleOptions()?.class"
+        [style]="{
+            'max-width': this.dimensionbleOptions()?.size?.maxWidth,
+            'max-height': this.dimensionbleOptions()?.size?.maxHeight
+        }">
         @if(this.esImagen) {
             <img [src]="this.media().url" alt="">
         }

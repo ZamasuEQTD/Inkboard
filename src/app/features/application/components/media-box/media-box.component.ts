@@ -13,7 +13,13 @@ export class MediaBoxComponent {
 
   media = input.required<Media>();
 
-  dimensionbleOptions  = input<{ size : {maxWidth? : string,maxHeight? : string}} >()
+  dimensionbleOptions  = input<{ 
+    class?: string,
+    size? : {
+          maxWidth? : string,
+          maxHeight? : string
+        }
+  } >()
 
   esDimensionable = computed(()=> MediaBoxComponent.dimensionables.includes(this.media().provider));
 

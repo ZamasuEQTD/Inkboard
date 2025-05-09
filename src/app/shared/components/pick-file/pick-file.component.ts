@@ -21,15 +21,19 @@ export class PickFileComponent {
   }
 
   onPicked(event: any) :void{
-    const  files :FileList = event.target.files;
+    const files :FileList = event.target.files;
 
-    const  file : File = files[0];
+    const file : File = files[0];
 
     const reader = new FileReader();
 
+    console.log(file);
+
     reader.onload = (e: ProgressEvent<FileReader>) => {
+      let type :string = file.type.split('/')[0].toLowerCase();
+
       this.onPickedFile.emit({
-        type :  this.capitalize(file.type.split('/')[0]).toLowerCase(),
+        type : type === 'image'? 'imagen' : type,
         source :  reader.result! as string,
         file: file,
         spoiler:false
