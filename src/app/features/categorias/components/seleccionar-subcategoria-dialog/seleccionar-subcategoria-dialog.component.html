@@ -1,0 +1,7 @@
+    <app-dialog title="Seleccionar subcategoria" [visible]="visible()"  >
+        <app-categorias-list  
+            [categorias]="categorias()" 
+            [cargando]="false" 
+            (onSubcategoriaSeleccionada)="this.onSubcategoriaSeleccionada.emit($event)"
+        />
+    </app-dialog>

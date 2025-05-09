@@ -1,0 +1,15 @@
+@for (categoria of categorias(); track $index) {
+
+    <span class="font-semibold text-muted">{{categoria.nombre}}</span>
+
+    @for (subcategoria of categoria.subcategorias; track $index) {
+        <div 
+            class="flex flex-row items-center hover:rounded-md hover:bg-input-border/30 py-2 px-3 gap-x-3" 
+            (click)="this.onSubcategoriaSeleccionada.emit(subcategoria)">
+
+            <img [src]="subcategoria.imagen" alt="" class="size-8 rounded-md object-cover">
+
+            <span class="text-sm font-semibold">{{subcategoria.nombre}}</span>
+        </div>
+    }
+}
