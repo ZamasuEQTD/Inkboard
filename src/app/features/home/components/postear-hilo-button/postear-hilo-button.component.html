@@ -1,3 +1,5 @@
-<button class="icon-button size-12">
+<button class="icon-button size-12" (click)="visible.set(true)">
     <i class="fa-solid fa-plus"></i>
 </button>
+
+<app-postear-hilo-dialog [(visible)]="visible"></app-postear-hilo-dialog>
