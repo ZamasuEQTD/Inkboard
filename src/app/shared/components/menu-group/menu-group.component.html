@@ -1,0 +1,15 @@
+@for (grupo of grupos(); track $index) {
+    <div class="group">
+        @if(grupo.label){
+            <span class="p-2 font-semibold text-[oklab(0.310123_0.00108959_-0.00894994)]">{{grupo.label}}</span>
+        }
+        
+        @for (item of grupo.items; track $index) {
+           <app-menu-item [item]="item"></app-menu-item>
+        }
+    </div>
+
+    @if(grupo.separator && !$last){
+        <div class="h-[1px] w-full my-2 bg-[oklab(0.678888_0.00325716_-0.011175/0.278431)]"></div>
+    }
+}

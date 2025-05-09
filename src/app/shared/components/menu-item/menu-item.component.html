@@ -1,0 +1,17 @@
+<div
+class="
+    p-2 flex 
+    flex-row 
+    hover:bg-gray-200/50 
+    justify-between 
+    rounded-sm 
+    items-center
+" (click)="item().onTap?.()">
+<span class="text-sm font-[500] text-[oklab(0.310123_0.00108959_-0.00894994)]">{{item().label}}</span>
+
+@if (item().icon) {
+    <div class="text-[oklab(0.491651_0.00312106_-0.0155715)] ml-2">
+        <i class="{{item().icon}}"></i>
+    </div>
+}
+</div>

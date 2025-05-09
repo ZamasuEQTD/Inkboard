@@ -1,8 +1,9 @@
 import { Component, ElementRef, inject, input, signal, ViewChild } from '@angular/core';
-import { MenuComponent, MenuGroup } from "../../../../../../shared/components/menu/menu.component";
+import { MenuComponent } from "../../../../../../shared/components/menu/menu.component";
 import { Comentario } from '../../../../interface/comentario.interface';
 import { HiloPageService } from '../../../../../hilos/services/hilo-page.service';
 import { AuthService } from '../../../../../auth/services/auth.service';
+import { MenuGroup } from '../../../../../../shared/interfaces/menu.interface';
 
 @Component({
   selector: 'app-opciones-de-comentario-button',
