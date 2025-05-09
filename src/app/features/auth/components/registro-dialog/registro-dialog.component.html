@@ -1,0 +1,26 @@
+<app-dialog title="Registrarse" [(visible)]="visible">
+        <span class="text-lg text-[oklab(0.322425_0.00154591_-0.010555)] font-semibold ">
+            <span>¡Bienvenido! Crea una cuenta para continuar</span>
+            <br>
+            <span>¿Ya tienes cuenta? <span (click)="this.visible.set(false);this.login.set(true)" class="text-indigo-600 cursor-pointer">Inicia sesión</span> </span>
+        </span>
+
+       <app-form-section label="Usuario">
+            <input 
+                type="text" 
+                class="w-full" 
+                [formControl]="this.form.controls.usuario"
+            >
+       </app-form-section>
+
+
+        <app-form-section label="Contraseña">
+           <app-password-input [control]="this.form.controls.password"></app-password-input>
+        </app-form-section>
+
+        <app-form-section label="Confirma contraseña">
+            <app-password-input [control]="this.form.controls.confirmacion"></app-password-input>
+         </app-form-section>
+ 
+        <button (click)="registrarse()" class="bg-indigo-500 text-white font-semibold min-h-11 min-w-24 w-full rounded-lg">Registrarse</button>
+</app-dialog>

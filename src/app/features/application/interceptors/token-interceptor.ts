@@ -11,7 +11,10 @@ export class TokenInterceptor implements HttpInterceptor {
      ) {
     }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if(this.auth.autenticado()){
+        if(!this.auth.autenticado()){
+          console.log(request.url);
+          console.log(this.auth.token());
+  
           return next.handle(request);
         }
 
@@ -20,6 +23,7 @@ export class TokenInterceptor implements HttpInterceptor {
             Authorization: `Bearer ${this.auth.token()}`
           }
         });
+
         return next.handle(clonedRequest);
     }
 }

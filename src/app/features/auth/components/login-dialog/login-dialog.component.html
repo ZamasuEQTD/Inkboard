@@ -1,0 +1,19 @@
+
+<app-dialog title="Iniciar sesión" [(visible)]="visible">
+        <span class="text-lg text-secondary-text font-semibold">
+            <span>¡Bienvenido! Nos alegra tenerte aquí.</span>
+            <br>
+            <span>¿No tienes cuenta? <span (click)="visible.set(false); registro.set(true)" class="text-indigo-600 cursor-pointer">Registrate</span> </span>
+        </span>
+
+        <app-form-section label="Usuario">
+            <input type="text" class="w-full " [formControl]="this.form.controls.usuario">
+        </app-form-section>
+
+
+        <app-form-section label="Contraseña">
+            <app-password-input [control]="this.form.controls.password"></app-password-input>
+        </app-form-section>
+
+        <button (click)="login()" class="bg-indigo-500 text-white font-semibold min-h-11 min-w-24 w-full rounded-lg">Iniciar sesión</button>
+</app-dialog>

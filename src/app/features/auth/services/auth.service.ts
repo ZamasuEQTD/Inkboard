@@ -13,7 +13,13 @@ export class AuthService {
 
   token = signal<string | null | undefined>(loadToken()); 
 
-  autenticado = computed(()=> this.currentUser !== null);
+  autenticado = computed(() => !!this.token());
+ 
+  saveToken = effect(() => {
+    if(this.token()){
+      localStorage.setItem(AUTH_KEY, this.token()!);
+    }
+  })
 
   createUserFromToken = effect(() => {
     if (this.token()) {
