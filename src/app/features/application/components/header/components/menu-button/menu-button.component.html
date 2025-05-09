@@ -4,5 +4,31 @@
 
 @if (mostrarMenu()) {
     <div class="fixed top-0 left-0 w-full h-full bg-gray-900 opacity-50 z-50" (click)="toggleMenu()"> </div>
-    <div class="fixed top-0 w-2xs h-full bg-red-400 right-0 z-51"></div>
+    <div class="fixed top-0 w-2xs h-full flex items-center bg-white right-0 z-51 px-1">
+        <div class="w-full"> 
+            @if (autenticado) {
+                <div class="flex justify-center py-2">
+                    <span>Bienvenido, <span class="font-semibold">{{username}}</span></span>
+                </div>
+
+                <div>
+                    <app-menu-group [grupos]="items"></app-menu-group>
+                </div>
+            } @else {
+                <div class="flex justify-center py-2">
+                    <span class="text-center font-semibold">Inicia sesión para continuar o registrate</span>
+                </div>
+
+                <div>
+                    <button class="primary-button rounded-2xl! w-full mb-1" (click)="mostrarLogin.set(true)">Iniciar sesión</button>
+
+                    <button class="secondary-button rounded-2xl! w-full" (click)="mostrarRegistro.set(true)">Registrarse</button>
+                </div>
+            }
+        </div>
+    </div>
 }
+
+<app-login-dialog  [(visible)]="mostrarLogin" [(registro)]="mostrarRegistro"/>
+
+<app-registro-dialog [(visible)]="mostrarRegistro" [(login)]="mostrarLogin" /> 
