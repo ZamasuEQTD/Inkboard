@@ -8,10 +8,11 @@ import { Comentario } from '../../../comentarios/interface/comentario.interface'
 import { HttpClient } from '@angular/common/http';
 import { HiloPageService } from '../../services/hilo-page.service';
 import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'hilo-page',
-  imports: [HiloBodyComponent, ComentarHiloComponent, HiloComentariosComponent],
+  imports: [HiloBodyComponent, ComentarHiloComponent, HiloComentariosComponent, CommonModule],
   templateUrl: './hilo-page.component.html',
   styleUrl: './hilo-page.component.css',
 })
