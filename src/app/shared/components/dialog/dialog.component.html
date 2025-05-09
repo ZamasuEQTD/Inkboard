@@ -1,0 +1,46 @@
+@if (this.visible()) {
+    <div class="absolute top-0 left-0 z-[1001]">
+        <div class="fixed top-0 left-0 bottom-0 right-0 z-[1002] bg-gray-600/60"></div>
+    
+        <div class="
+                    fixed 
+                    top-0 
+                    left-0 
+                    bottom-0 
+                    right-0 
+                    z-[1003] 
+                    flex 
+                    flex-col 
+                    items-center 
+                    justify-end 
+                    sm:justify-center
+                    sm:py-6"
+                    (click)="toggleVisible()"
+                >
+            <div class="
+                    sm:h-auto 
+                    sm:max-h-[800px] 
+                    sm:min-h-[400px] 
+                    sm:rounded-xl 
+                    bg-[oklab(0.988044_0.0000450313_0.0000197887)]
+                    sm:w-[600px]
+                    w-full
+                    h-full
+                    flex
+                    flex-col
+                    pb-2
+                    " 
+                    (click)="$event.stopPropagation()">            
+                   
+                @if(title()){
+                    <app-dialog-header [title]="title()!"  (onClose)="toggleVisible()"/> 
+                }
+    
+                    <div class="overflow-x-hidden overflow-y-auto px-6">
+                        <ng-content></ng-content>
+                    </div>
+               
+            </div>
+        </div>
+    </div>
+}
