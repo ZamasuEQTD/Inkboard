@@ -2,7 +2,7 @@
 
 @import "tailwindcss";
 
-@tailwind utilities;
+@layer theme, base, components, utilities;
 
 @theme {
     --light-background: #ffffff;
@@ -22,8 +22,16 @@
     --color-light-skeleton-background: var(--color-stone-200);
     --color-light-on-skeleton-background: var(--color-white);
 
-    --color-light-button: var(--color-stone-900);
+    --color-light-button: var(--color-indigo-500);
+    --color-light-hover-button:var(--color-indigo-600);
     --color-light-on-button: var(--color-white);
+
+    --color-light-muted:oklab(0.491651 0.00312106 -0.0155715);
+    --color-secondary-text:oklab(0.322425 0.00154591 -0.010555);
+    --color-input-bg: oklab(0 0 0/0.0784314);
+    --color-input-border: oklab(0.678888 0.00325716 -0.011175/0.360784);
+
+    --color-light-menu-icon: oklab(0.310123 0.00108959 -0.00894994);
 }
 
 @layer utilities {
@@ -47,16 +55,49 @@
         @apply  border border-white text-white rounded-xl font-light px-4 py-2;
     }
 
-
     input, textarea {
-        @apply border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 px-3 py-2 outline-none;
-      }
+        @apply  bg-input-bg text-secondary-text  border-input-border border-1 rounded-md focus:outline-none   px-3 py-2 outline-none;
+    }
     
-      textarea {
+    textarea {
         @apply resize-none;
-      }
+    }
+
+    .primary-flat-button {
+        @apply bg-light-button text-light-on-button rounded-xl p-2;
+    }
+
+    .secondary-button {
+        @apply bg-[rgba(151,151,159,0.12)]! hover:bg-[oklab(0_0_0/0.09)]! text-[oklab(0.564529_0.00262919_-0.0135428)]!
+    }
 }
 
+@layer components {
+    .primary-button {
+        @apply bg-light-button hover:bg-light-hover-button text-light-on-button font-semibold min-h-11 min-w-24 w-full rounded-lg ;
+    }
+
+    .secondary-button {
+        @apply 
+            font-semibold 
+            min-h-11 
+            min-w-24 
+            w-full 
+            rounded-lg 
+            bg-[rgba(151,151,159,0.12)] 
+            text-[oklab(0.564529_0.00262919_-0.0135428)]
+            hover:bg-[oklab(0_0_0/0.09)];
+
+        i {
+            @apply 
+                text-light-muted
+                mr-2
+        }
+    }
+
+    
+}
+ 
 .fade-gradient {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.5) 100%);
 }
