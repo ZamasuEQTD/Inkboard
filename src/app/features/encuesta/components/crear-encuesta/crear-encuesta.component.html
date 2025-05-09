@@ -1,0 +1,22 @@
+@if(encuesta().length !== 0){
+        @for (item of encuesta().controls; track $index) {
+            <div class="flex flex-row gap-x-2 mb-2">
+                <input [formControl]="item" type="text" [placeholder]="'Opcion ' + ($index + 1)" class="w-full ">
+        
+                <button class="size-10 flex justify-center items-center"  (click)="eliminarOpcion($index)">
+                    <i class="fas fa-trash text-light-muted"></i>
+                </button>
+            </div>
+        }
+    
+    @if(encuesta().length != 4){
+        <button class="secondary-button" (click)="agregarOpcion()">
+            <span>Agregar opción</span>
+        </button>
+    }
+}@else{
+    <button class="secondary-button" (click)="agregarOpcion()">
+        <i class="fas fa-poll"></i>
+        <span>Agregar encuesta</span>    
+    </button>
+}

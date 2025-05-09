@@ -1,0 +1,126 @@
+<app-dialog title="Postear hilo" [(visible)]="visible">
+    <form action="" 
+        [formGroup]="this.form"
+    >
+        <app-form-section label="Titulo">
+            <input type="text" class="w-full" [formControl]="form.controls.titulo">
+        </app-form-section>
+
+        <app-form-section label="Descripcion">
+            <textarea 
+                name="" 
+                rows="4"
+                id=""
+                class="w-full bg-input-bg"
+                [formControl]="this.form.controls.descripcion"
+            ></textarea>
+        </app-form-section>
+    
+        <app-form-section label="Categoria">
+            <div 
+            
+                class="h-11 w-full border-input-border border-1 rounded-xl flex items-center px-4 justify-between"
+                (click)="this.seleccionarSubcategoria.set(true)"
+                >
+                @if(this.haySubcategoriaSeleccionada){
+
+                    @let subcategoria = this.form.value.subcategoria!;
+
+                    <div class="flex gap-x-2 items-center">
+                            <img class="size-8 rounded-sm object-cover" [src]="subcategoria.imagen" alt="">
+
+                        <span class="font-semibold">{{subcategoria.nombre}}</span>
+                    </div>
+                
+                }
+                @else {
+                    <span class="font-semibold">Seleccionar subcategoria</span>
+                }
+                <i class="fas fa-chevron-right"></i>
+                
+
+            </div>
+        </app-form-section>
+
+        <app-form-section label="Portada">
+            <app-pick-file (onPickedFile)="agregarPortada($event)"  #filePicker/>
+
+            @if(!existePortada){
+                <div class="flex flex-row gap-x-2">
+                  
+                    <button class="secondary-button" (click)="filePicker.pick()">
+                        <i class="fas fa-photo-video"></i>
+                        <span>Archivo</span>
+                    </button>
+
+                    <button class="secondary-button" (click)="toggleEnlace()" >
+                        <i class="fas fa-link"></i>
+                        <span>Enlace</span>
+                    </button>
+           
+                </div> 
+            
+                @if (agregarEnlace()) {
+                    <app-form-section label="Enlace">
+                        <input type="text" placeholder="Youtube video" class="w-full">
+                    </app-form-section>
+                }
+            }
+            @else {
+                    <div class="flex justify-center">
+                        <div class="relative">
+                            <div class="overflow-hidden rounded-xl relative">
+                                <app-media-box [media]="media" [dimensionbleOptions]="{
+                                    size: {
+                                        maxHeight : '400px'
+                                    }
+                                }"/>
+
+                                @if(media.spoiler){
+                                    <div class="absolute top-0 right-0 bottom-0 left-0 backdrop-blur-xl bg-black/10" ></div>
+                                }
+                            </div>
+                                <div class="absolute top-[-10px] right-[-16px] overflow-hidden border-1 border-input-border  bg-white  rounded-lg">
+                                        <button class="size-9 text-light-muted hover:bg-gray-200/50  hover:text-black" (click)="form.value.portada!.spoiler = !media.spoiler">
+                                            @if (media!.spoiler) {
+                                                <i class="fas fa-eye"></i>
+                                            }@else {
+                                                <i class="fas fa-eye-slash"></i>
+                                            }
+                                        </button>
+                                    
+                                        <button class="size-9 hover:bg-red-400/20 text-red-500/70"  (click)="form.controls.portada.setValue(null)">
+                                            <i class="fas fa-trash "></i>
+                                        </button>
+                                </div> 
+                        </div>
+                    </div>
+                
+            }
+        </app-form-section>
+
+        <app-form-section label="Encuesta">
+            <app-crear-encuesta [encuesta]="form.controls.encuesta" />
+        </app-form-section>
+
+        <app-form-section label="Banderas">
+            <div class="bg-gray-200 rounded-md px-2.5 py-2 border-[0.5px] border-input-border">
+                <div class="flex flex-row justify-between">
+                    <label class="text-secondary-text font-semibold" for="id-unico" [formControl]="this.form.controls.idUnico">Id unico</label>
+                    <input type="checkbox" id="id-unico">
+                </div>
+
+                <div class="flex flex-row justify-between mt-2">
+                    <label class="text-secondary-text font-semibold" for="dados" [formControl]="this.form.controls.dados">Dados</label>
+                    <input type="checkbox" id="dados">
+                </div>
+            </div>
+            
+        </app-form-section>
+
+
+        <button class="primary-button" (click)="postear()">Postear</button>
+    </form>
+</app-dialog>
+
+<app-seleccionar-subcategoria-dialog [(visible)]="this.seleccionarSubcategoria" (onSubcategoriaSeleccionada)="this.form.controls.subcategoria.setValue($event); this.seleccionarSubcategoria.set(false)"></app-seleccionar-subcategoria-dialog>
