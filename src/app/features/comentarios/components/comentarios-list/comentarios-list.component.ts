@@ -1,4 +1,4 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, ElementRef, input, ViewChild } from '@angular/core';
 import { Comentario } from '../../interface/comentario.interface';
 import { ComentarioComponent } from "./comentario/comentario.component";
 
@@ -12,4 +12,7 @@ export class ComentariosListComponent {
   comentarios =input.required<Comentario[]>()
   
   cargandoComentarios = input.required<boolean>();
+
+  @ViewChild("scroll") scroll!:ElementRef<HTMLElement> 
+
 }

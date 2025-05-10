@@ -21,7 +21,7 @@
             <div class="bg-yellow-200 text-xs px-2 py-1 rounded-lg">Destacado</div>
           }
   
-          <div class="bg-white text-xs px-2 py-1 rounded-lg cursor-pointer font-semibold">{{comentario().tag}}</div>
+          <div (click)="service.tagguearComentario(comentario().tag)" class="bg-white text-xs px-2 py-1 rounded-lg cursor-pointer font-semibold">{{comentario().tag}}</div>
   
           @if (comentario().tag_unico) {
             <div class="text-white text-xs px-2 py-1 rounded-lg font-semibold" [ngClass]="colorTagUnico">{{comentario().tag_unico}}</div>
@@ -40,12 +40,11 @@
   
     </div>
   
-    <div id="respuestas-comentario-wrap" class="flex flex-wrap gap-x-2 gap-y-2 cursor-pointer">
+    <div id="respuestas-comentario-wrap" class="flex flex-wrap gap-x-0.5 cursor-pointer">
       @for (tag of comentario().respondido_por; track $index) {
-        
-        <a href="" (click)="$event">
-          <span class=" text-blue-600 text-sm" (mouseleave)="$event" (mouseover)="$event">>>{{tag}}</span>
-        </a>
+        <div class="cursor-pointer" (click)="irComentario(tag)" (mouseenter)="mostrarRespuesta(tag)" (mouseleave)="ocultarRespuesta()">
+          <span class=" text-blue-600 text-sm">>>{{tag}}</span>
+        </div>
       }
     </div>
   
@@ -72,9 +71,17 @@
     }
     <div>
   
-    <span>{{comentario().texto}}</span>
+    <span class="break-words">{{comentario().texto}}</span>
 
     </div>
 
   </div>
-  
+
+
+  @if (this.hayComentarioSeleccionado()) {
+    <app-comentario 
+        class="fixed  p-2 bg-white min-w-[450px] shadow-lg rounded-md z-50 right-[55.5%]"
+        [style.top.px]="hoverPosition.top"
+        [comentario]="this.comentarioSeleccionado()!" 
+    /> 
+}

@@ -43,7 +43,15 @@ export class OpcionesDeComentarioButtonComponent {
           { label: 'Ocultar', icon: 'fa-solid fa-eye' },
           ...(
             this.comentario().respondido_por.length !== 0
-              ? [{ label: 'Ver respuestas', icon: 'fas fa-hashtag' }]
+              ? [{ 
+                  label: 'Ver respuestas', 
+                  icon: 'fas fa-hashtag',
+                  onTap: () => {
+                    this.hiloService.setHistorialFromTags(this.comentario().respondido_por);
+
+                    this.mostrarOpciones.set(false)
+                  }
+                }]
               : []
           )
         ],
