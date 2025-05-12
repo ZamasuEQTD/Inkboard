@@ -1,0 +1,46 @@
+
+<app-dialog title="Banear usuario">
+    <form action="" [formGroup]="this.form">
+        <app-form-section label="Razón">
+        <button (click)="this.mostrarRazones.set(true)" class="text-button border-solid border-black border-1 flex rounded-2xl justify-between items-center px-5">
+            @let razonIdx = this.form.value.razon;
+
+            <span>{{razonIdx !== null && razonIdx !== undefined? razones[razonIdx!] : "Seleccionar razón"}}</span>
+
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </app-form-section>
+
+     <app-form-section label="Duración">
+        <button (click)="this.mostrarDuraciones.set(true)" class="text-button border-solid border-black border-1 flex rounded-2xl justify-between items-center px-5">
+            @let duracionIdx = this.form.value.duracion;
+
+            <span>{{duracionIdx !== null && duracionIdx !== undefined? duraciones[duracionIdx!] : "Seleccionar duración"}}</span>
+
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </app-form-section>
+
+    <app-form-section label="Mensaje (opcional)" >
+        <textarea name="" id="" class="w-full" rows="5" [formControl]="this.form.controls.mensaje"> </textarea>
+    </app-form-section>
+
+    <button class="danger-button text-button">Banear</button>
+
+    </form>
+</app-dialog>
+
+
+<app-seleccionar-duracion-de-baneo 
+    [(visible)]="this.mostrarDuraciones"
+    (onDuracionSeleccionada)="this.form.patchValue({
+        duracion:$event
+    })"
+/>
+
+<app-seleccionar-razon-de-baneo 
+    [(visible)]="this.mostrarRazones"
+    (onRazonSeleccionada)="this.form.patchValue({
+        razon:$event
+    })"
+/>

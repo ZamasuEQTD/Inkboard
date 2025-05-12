@@ -1,0 +1,7 @@
+<app-dialog [(visible)]="this.visible" [fullScreenOnMobile]="false" title="Seleccionar razón">
+    @for (razon of razones; track $index) {
+        <div class="px-5 py-2 hover:bg-gray-200 hover:rounded-md" (click)="this.visible.set(false);this.onRazonSeleccionada.emit($index)">
+            <span class="font-semibold">{{razon}}</span>
+        </div>
+    }
+</app-dialog>

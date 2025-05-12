@@ -1,0 +1,32 @@
+@let registro = this.registro();
+
+<div class="bg-red-50 px-2 py-1 rounded-sm flex flex-row mb-0.5 w-full justify-between items-center">
+
+    <div class="grow overflow-hidden flex flex-col">
+
+        <div class="flex flex-row gap-x-3">
+                <div 
+                    class="size-16 rounded-xl" 
+                    [style.backgroundSize]="'cover'"
+                    [style.backgroundImage]="'url(' + registro.miniatura + ')'">
+                </div>
+                <div class="flex-1">
+                    @let titulo = this.tipo() === 'comentarios' ? "Ha comentado en :" : "Ha posteado :";
+                    <span class="line-clamp-2 text-sm">
+                        {{titulo}}<span class="font-semibold">{{registro.titulo}}</span>
+                    </span>
+                </div>
+        </div>
+
+        <span class="text-xs text-gray-400">hace 2ms</span>
+        <span class="text-sm break-words overflow-hidden">{{registro.contenido}}</span>
+    </div>
+    
+        <a 
+            [routerLink]="'/hilo/' + registro.id"
+            [queryParams]="{ comentario: registro.comentario_tag }"
+            target="_blank"
+            class="size-10 shrink-0 flex justify-center items-center">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+</div>
