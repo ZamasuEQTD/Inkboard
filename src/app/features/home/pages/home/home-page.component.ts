@@ -6,10 +6,13 @@ import { PostearHiloButtonComponent } from "../../components/postear-hilo-button
 import { HttpClient } from '@angular/common/http';
 import { ApiResponse } from '../../../application/interfaces/api-response.interface';
 import { map } from 'rxjs';
+import { FiltrosDeHiloComponent } from "../../../application/components/filtros-de-hilo/filtros-de-hilo.component";
+import { ActivatedRoute } from '@angular/router';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-home-page',
-  imports: [HeaderComponent, PortadasComponent, PostearHiloButtonComponent],
+  imports: [HeaderComponent, PortadasComponent, PostearHiloButtonComponent, FiltrosDeHiloComponent,InfiniteScrollDirective],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css',
 })
@@ -21,14 +24,44 @@ export class HomePageComponent implements OnInit{
 
   private readonly http = inject(HttpClient);
 
+  private readonly router = inject(ActivatedRoute);
+
   ngOnInit(): void {
     this.cargandoPortadas.set(true);
-    this.http.get<ApiResponse<Portada[]>>("/api/hilos")
+    
+    this.router.queryParams.subscribe((params)=> {
+      this.http.get<ApiResponse<Portada[]>>("/api/hilos", {
+        params : {
+          titulo : params["titulo"]?? ""
+        }
+      })
     .pipe(
       map((response)=> response.data),
     ).subscribe((portadas) => {
       this.portadas.set(portadas);
       this.cargandoPortadas.set(false);
     });
+    })
+  }
+
+  cargarPortadas(){
+    if(this.cargandoPortadas()) return;
+
+    this.cargandoPortadas.set(true)
+    this.router.queryParams.subscribe((params)=> {
+      this.http.get<ApiResponse<Portada[]>>("/api/hilos", {
+        params : {
+          titulo : params["titulo"]?? "",
+          ultimaPortada: this.portadas().at(this.portadas().length - 1)?.id ?? ''
+        }
+      })
+    .pipe(
+      map((response)=> response.data),
+    ).subscribe((portadass) => {
+      this.portadas.update((p)=> [...p,...portadass]);
+
+      this.cargandoPortadas.set(false);
+    });
+    })
   }
 }

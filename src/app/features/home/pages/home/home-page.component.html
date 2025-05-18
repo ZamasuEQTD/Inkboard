@@ -1,5 +1,13 @@
 <app-header/>
 
-<hilos-portadas-grid [portadas]="portadas()" [cargando]="cargandoPortadas()"/>
+<div class="px-4 sm:hidden">
+    <app-filtros-de-hilo/> 
+</div>
+
+<hilos-portadas-grid 
+    [portadas]="portadas()" 
+    [cargando]="cargandoPortadas()"
+    (onScroll)="cargarPortadas()"
+/>
 
 <home-postear-hilo-button class="fixed bottom-1 right-1"/>

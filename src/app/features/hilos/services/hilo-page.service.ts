@@ -27,6 +27,7 @@ export class HiloPageService {
 
   readonly historialDeComentariosSeleccionado = signal<Comentario[]>([]);
 
+  readonly usuarioSeleccionado = signal<string |  undefined>(undefined);
 
   http = inject(HttpClient);
 

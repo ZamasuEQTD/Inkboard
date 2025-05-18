@@ -2,7 +2,7 @@
 
 @if(hilo){
 
-<div class="flex flex-col px-1 py-1 bg-gray-200/70 h-full sm:overflow-y-auto rounded-b-2xl sm:rounded-none">
+<div class="flex flex-col px-1 py-1 bg-background-base h-full sm:overflow-y-auto rounded-b-2xl sm:rounded-none">
 
   <div class="flex px-2 py-1 gap-x-1 bg-white rounded-md items-center mb-1">
       <img class="size-[40px] object-cover rounded" [src]="hilo!.subcategoria.imagen" alt="" />
@@ -44,7 +44,7 @@
   <div class="flex justify-center my-1">
       <div class="overflow-hidden rounded-md">
           <app-media-box 
-                  [dimensionbleOptions]="{size: {maxHeight : '1000px'}}"
+                  [dimensionbleOptions]="{size: {maxHeight : '500px'}}"
                   [media]="hilo?.media!">
               <app-blur-advertencia 
                   class="top-0

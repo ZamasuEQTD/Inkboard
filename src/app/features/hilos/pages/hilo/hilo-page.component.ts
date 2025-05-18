@@ -11,10 +11,12 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from "../../../application/components/header/header.component";
 import { ComentarioComponent } from "../../../comentarios/components/comentarios-list/comentario/comentario.component";
+import { VerRegistrosDeUsuarioDialogComponent } from "../../../moderacion/components/ver-registros-de-usuario-dialog/ver-registros-de-usuario-dialog.component";
+import { DialogComponent } from "../../../../shared/components/dialog/dialog.component";
 
 @Component({
   selector: 'hilo-page',
-  imports: [HiloBodyComponent, ComentarHiloComponent, HiloComentariosComponent, CommonModule, HeaderComponent, ComentarioComponent],
+  imports: [HiloBodyComponent, ComentarHiloComponent, HiloComentariosComponent, CommonModule, HeaderComponent, ComentarioComponent, VerRegistrosDeUsuarioDialogComponent, DialogComponent],
   templateUrl: './hilo-page.component.html',
   styleUrl: './hilo-page.component.css',
 })
@@ -49,7 +51,13 @@ export class HiloPageComponent implements OnInit {
           setTimeout(() => {
             const comentario: string | undefined = params['comentario'];
             if (comentario) {
-              this.scrollToComentario(comentario);
+              if(window.innerWidth <= 640){
+                this.service.setHistorialFromTags([comentario])
+              }
+              else {
+                this.scrollToComentario(comentario);
+
+              }
             }
           }, 500);
         });
