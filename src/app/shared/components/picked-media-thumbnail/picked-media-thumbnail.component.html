@@ -1,6 +1,6 @@
 <div class="flex items-center  justify-center h-full ">
     @switch (this.media().type) {
-        @case ('image') {
+        @case ('imagen') {
           <img  class="h-full" [src]="this.media()!.source" alt="">
         }
         @case ('video') {
@@ -10,5 +10,4 @@
           <!-- <img  [src]='this.media()!.source | youtubeThumbnail' alt=""> -->
         }
       }
-    
 </div>
