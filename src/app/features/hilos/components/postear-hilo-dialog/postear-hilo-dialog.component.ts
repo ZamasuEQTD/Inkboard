@@ -14,6 +14,7 @@ import { SeleccionarSubcategoriaDialogComponent } from "../../../categorias/comp
 import { HttpClient } from '@angular/common/http';
 import { ApiResponse } from '../../../application/interfaces/api-response.interface';
 import { Router } from '@angular/router';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-postear-hilo-dialog',
@@ -24,8 +25,7 @@ import { Router } from '@angular/router';
     CrearEncuestaComponent,
     ReactiveFormsModule,
     PickFileComponent,
-    MediaBoxComponent,
-    SeleccionarSubcategoriaDialogComponent
+    MediaBoxComponent
 ],
   templateUrl: './postear-hilo-dialog.component.html',
   styleUrl: './postear-hilo-dialog.component.css',
@@ -35,7 +35,7 @@ export class PostearHiloDialogComponent {
   private http = inject(HttpClient)
   private router = inject(Router);
 
-  visible = model.required<boolean>();
+  dialogRef = inject(DialogRef)
 
   agregarEnlace = signal(false);
 
@@ -44,17 +44,27 @@ export class PostearHiloDialogComponent {
     descripcion : this.fb.control<string>(''),
     encuesta: this.fb.array<string[]>([]),
     embed : this.fb.control<string>('', [Validators.required]),
-    portada: this.fb.control<PickedMedia | null>(null),
-    subcategoria: this.fb.control<Subcategoria | null>(null),
+    portada: this.fb.control<PickedMedia | undefined>(undefined),
+    subcategoria: this.fb.control<Subcategoria | undefined>(undefined),
     dados :this.fb.control<boolean>(false),
     idUnico :this.fb.control<boolean>(false)
-
   });
 
   posteando = signal(false);
 
-  seleccionarSubcategoria = signal<boolean>(false);
 
+  dialog = inject(Dialog)
+  
+
+  mostarSeleccionarSubcategoria () : void {
+    SeleccionarSubcategoriaDialogComponent.show(this.dialog, {
+      onSubcategoriaSeleccionada: (subcategoria) => {
+        this.form.patchValue({
+          subcategoria : subcategoria
+        })
+      }
+    })
+  }
   agregarPortada(portada : PickedMedia) :void {
     this.form.controls.portada.setValue(portada);
   }
@@ -75,10 +85,16 @@ export class PostearHiloDialogComponent {
     data.append("descripcion", values.descripcion!)
 
     data.append("subcategoria",  values.subcategoria!.id || "");
+    
     data.append("DadosActivados", values.dados!.toString());
 
     data.append("IdUnicoActivado", values.idUnico!.toString());
 
+    var encuesta = values.encuesta || []
+
+    encuesta.forEach((opcion,i )=> {
+      data.append(`Encuesta[${i}]`, opcion!);
+    })
 
     let portada = values.portada;
 
@@ -98,7 +114,7 @@ export class PostearHiloDialogComponent {
     this.http.post<ApiResponse<string>>("/api/hilos/postear", data).subscribe((response) => {
       const hiloId = response.data;
       
-      this.visible.set(false)
+      this.dialogRef.close();
 
       this.router.navigate(["/hilo/", hiloId]);
     });

@@ -1,4 +1,4 @@
-<app-dialog [fullScreenOnMobile]="false" (onClose)="this.onClose.emit()">
+<app-dialog [fullScreenOnMobile]="false" (onClose)="this.dialogRef.close()">
     <div class="flex justify-center bg-input/60 rounded-lg mb-1 p-2 w-full">
         <div class="p-2 flex flex-row gap-x-2">
 
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <button class="text-button danger-button">Banear usuario</button>
+    <button class="text-button danger-button" (click)="mostrarBanearUsuario()">Banear usuario</button>
 
     <div class="flex flex-row rounded-lg p-2 mt-1">
         <button class="secondary-button text-button" (click)="this.seleccionarRegistro('hilos')" [class]="{'bg-white!' : this.registroSeleccionado() === 'hilos'}">
@@ -43,5 +43,3 @@
   }
   
 </app-dialog>
-
-<app-banear-usuario-dialog [(visible)]="this.mostrarBanearUsuario" /> 

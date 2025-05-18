@@ -1,6 +1,6 @@
-<app-dialog [(visible)]="this.visible" [fullScreenOnMobile]="false" title="Seleccionar duración">
+<app-dialog  [fullScreenOnMobile]="false" title="Seleccionar duración" (onClose)="this.dialogRef.close()">
     @for (duration of durations; track $index) {
-        <div class="px-5 py-2 hover:bg-gray-200 hover:rounded-md" (click)="this.visible.set(false);this.onDuracionSeleccionada.emit($index)">
+        <div class="px-5 py-2 hover:bg-gray-200 hover:rounded-md" (click)="this.data.onDuracionSeleccionada($index)">
             <span class="font-semibold">{{duration}}</span>
         </div>
     }

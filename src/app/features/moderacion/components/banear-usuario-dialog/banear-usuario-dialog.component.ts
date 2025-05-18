@@ -6,17 +6,21 @@ import { SeleccionarDuracionDeBaneoComponent } from "../seleccionar-duracion-de-
 import { CommonModule } from '@angular/common';
 import { SeleccionarRazonDeBaneoComponent } from "../seleccionar-razon-de-baneo/seleccionar-razon-de-baneo.component";
 import { HttpClient } from '@angular/common/http';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-banear-usuario-dialog',
-  imports: [DialogComponent, FormSectionComponent, SeleccionarDuracionDeBaneoComponent, ReactiveFormsModule, CommonModule, SeleccionarRazonDeBaneoComponent],
+  imports: [DialogComponent, FormSectionComponent, ReactiveFormsModule, CommonModule],
   templateUrl: './banear-usuario-dialog.component.html',
   styleUrl: './banear-usuario-dialog.component.css',
 })
 export class BanearUsuarioDialogComponent { 
     private http = inject(HttpClient);
-
     private fb = inject(FormBuilder);
+
+    dialogRef = inject(DialogRef);
+
+    dialog = inject(Dialog)
 
     form = this.fb.group({
       mensaje: this.fb.control<string >(""),
@@ -24,11 +28,28 @@ export class BanearUsuarioDialogComponent {
       duracion: this.fb.control<number | undefined>(undefined)
     })
 
-    visible = model.required<boolean>()
+    mostrarRazones () {
+     let ref =  this.dialog.open(SeleccionarRazonDeBaneoComponent,{data:{
+        onRazonSeleccionada : (idx:number) => {
+          this.form.patchValue({
+            razon:idx
+          })
 
-    mostrarRazones = signal<boolean>(false);
+          ref.close();
+        }
+      }})
+    }
     
-    mostrarDuraciones = signal<boolean>(false);
+    mostrarDuraciones (){
+      let ref = this.dialog.open(SeleccionarDuracionDeBaneoComponent, {data:{
+        onDuracionSeleccionada : (idx:number) => {
+          this.form.patchValue({
+            duracion:idx
+          })
+          ref.close()
+        }
+      }})
+    };
 
     get duraciones() : string [] { 
       return SeleccionarDuracionDeBaneoComponent.DURATIONS;
@@ -40,7 +61,7 @@ export class BanearUsuarioDialogComponent {
 
     banear() : void {
       this.http.post("",{}).subscribe((response)=> {
-        this.visible.set(false);
+        this.dialogRef.close();
       });
     }
 }

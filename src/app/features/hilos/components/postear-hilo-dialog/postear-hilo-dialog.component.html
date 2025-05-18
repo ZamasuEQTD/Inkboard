@@ -1,4 +1,4 @@
-<app-dialog title="Postear hilo" [(visible)]="visible">
+<app-dialog title="Postear hilo" (onClose)="this.dialogRef.close()">
     <form action="" 
         [formGroup]="this.form"
     >
@@ -11,7 +11,7 @@
                 name="" 
                 rows="4"
                 id=""
-                class="w-full bg-input-bg"
+                class="w-full bg-input"
                 [formControl]="this.form.controls.descripcion"
             ></textarea>
         </app-form-section>
@@ -20,7 +20,7 @@
             <div 
             
                 class="h-11 w-full border-input-border border-1 rounded-xl flex items-center px-4 justify-between"
-                (click)="this.seleccionarSubcategoria.set(true)"
+                (click)="mostarSeleccionarSubcategoria()"
                 >
                 @if(this.haySubcategoriaSeleccionada){
 
@@ -48,12 +48,12 @@
             @if(!existePortada){
                 <div class="flex flex-row gap-x-2">
                   
-                    <button class="secondary-button" (click)="filePicker.pick()">
+                    <button class="secondary-button text-button" (click)="filePicker.pick()">
                         <i class="fas fa-photo-video"></i>
                         <span>Archivo</span>
                     </button>
 
-                    <button class="secondary-button" (click)="toggleEnlace()" >
+                    <button class="secondary-button text-button" (click)="toggleEnlace()" >
                         <i class="fas fa-link"></i>
                         <span>Enlace</span>
                     </button>
@@ -81,7 +81,7 @@
                                 }
                             </div>
                                 <div class="absolute top-[-10px] right-[-16px] overflow-hidden border-1 border-input-border  bg-white  rounded-lg">
-                                        <button class="size-9 text-light-muted hover:bg-gray-200/50  hover:text-black" (click)="form.value.portada!.spoiler = !media.spoiler">
+                                        <button class="size-9 icon-button" (click)="form.value.portada!.spoiler = !media.spoiler">
                                             @if (media!.spoiler) {
                                                 <i class="fas fa-eye"></i>
                                             }@else {
@@ -89,7 +89,7 @@
                                             }
                                         </button>
                                     
-                                        <button class="size-9 hover:bg-red-400/20 text-red-500/70"  (click)="form.controls.portada.setValue(null)">
+                                        <button class="size-9 icon-button destructive-icon-button"  (click)="form.controls.portada.setValue(null)">
                                             <i class="fas fa-trash "></i>
                                         </button>
                                 </div> 
@@ -104,23 +104,21 @@
         </app-form-section>
 
         <app-form-section label="Banderas">
-            <div class="bg-gray-200 rounded-md px-2.5 py-2 border-[0.5px] border-input-border">
+            <div class="bg-background-base rounded-md px-2.5 py-2 border-[0.5px] border-input-border">
                 <div class="flex flex-row justify-between">
-                    <label class="text-secondary-text font-semibold" for="id-unico" [formControl]="this.form.controls.idUnico">Id unico</label>
-                    <input type="checkbox" id="id-unico">
+                    <label class="text-secondary-text font-semibold" for="id-unico" >Id unico</label>
+                    <input type="checkbox" id="id-unico" [formControl]="this.form.controls.idUnico">
                 </div>
 
                 <div class="flex flex-row justify-between mt-2">
-                    <label class="text-secondary-text font-semibold" for="dados" [formControl]="this.form.controls.dados">Dados</label>
-                    <input type="checkbox" id="dados">
+                    <label class="text-secondary-text font-semibold" for="dados" >Dados</label>
+                    <input type="checkbox" id="dados" [formControl]="this.form.controls.dados">
                 </div>
             </div>
             
         </app-form-section>
 
 
-        <button class="primary-button" (click)="postear()">Postear</button>
+        <button class="primary-button text-button"  (click)="postear()">Postear</button>
     </form>
 </app-dialog>
-
-<app-seleccionar-subcategoria-dialog [(visible)]="this.seleccionarSubcategoria" (onSubcategoriaSeleccionada)="this.form.controls.subcategoria.setValue($event); this.seleccionarSubcategoria.set(false)"></app-seleccionar-subcategoria-dialog>

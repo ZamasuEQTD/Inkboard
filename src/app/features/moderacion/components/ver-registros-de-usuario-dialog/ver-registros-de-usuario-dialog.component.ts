@@ -6,28 +6,30 @@ import { DialogComponent } from "../../../../shared/components/dialog/dialog.com
 import { RegistroDeUsuarioComponent } from "../registro-de-usuario/registro-de-usuario.component";
 import { ApiResponse } from '../../../application/interfaces/api-response.interface';
 import { map } from 'rxjs';
-import { FormSectionComponent } from "../../../../shared/components/form/form-section/form-section.component";
-import { SeleccionarDuracionDeBaneoComponent } from "../seleccionar-duracion-de-baneo/seleccionar-duracion-de-baneo.component";
 import { BanearUsuarioDialogComponent } from "../banear-usuario-dialog/banear-usuario-dialog.component";
+import { Dialog, DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-ver-registros-de-usuario-dialog',
-  imports: [CommonModule, DialogComponent, RegistroDeUsuarioComponent, BanearUsuarioDialogComponent],
+  imports: [CommonModule, DialogComponent, RegistroDeUsuarioComponent],
   templateUrl: './ver-registros-de-usuario-dialog.component.html',
   styleUrl: './ver-registros-de-usuario-dialog.component.css',
 })
 export class VerRegistrosDeUsuarioDialogComponent implements OnInit  {
   private http = inject(HttpClient)
 
-  id = input.required<string>();
+  data = inject<VerUsuarioDialogData>(DIALOG_DATA);
 
-  onClose = output<void>();
+  dialogRef = inject(DialogRef)
+
+  dialog = inject(Dialog);
 
   usuario = signal<UsuarioRegistro | undefined>(undefined); 
 
   registroSeleccionado  = signal<'hilos' | 'comentarios'>('hilos');
 
   hilosPosteados = signal<Registro[]>([]);
+
   comentariosEnviados = signal<Registro[]>([]);
 
   registros = computed<Registro[]>(() => {
@@ -36,18 +38,20 @@ export class VerRegistrosDeUsuarioDialogComponent implements OnInit  {
     return this.comentariosEnviados();
   })
 
-  mostrarBanearUsuario = signal<boolean>(false);
+  mostrarBanearUsuario(){
+    this.dialog.open(BanearUsuarioDialogComponent)
+  }
 
   seleccionarRegistro(registro: 'hilos' | 'comentarios'): void {
     this.registroSeleccionado.set(registro);
   }
 
   ngOnInit(): void {
-    this.http.get<ApiResponse<UsuarioRegistro>>(`/api/registros/usuario/${this.id()}`)
+    this.http.get<ApiResponse<UsuarioRegistro>>(`/api/registros/usuario/${this.data.id}`)
       .pipe(map(r => r.data)).subscribe(data => {
         this.usuario.set(data);
       
-        var response = this.http.get<ApiResponse<Registro[]>>(`/api/registros/hilos-posteados/usuario/${this.id()}`)
+        var response = this.http.get<ApiResponse<Registro[]>>(`/api/registros/hilos-posteados/usuario/${this.data.id}`)
 
         response.pipe(
           map(r => r.data)
@@ -55,7 +59,7 @@ export class VerRegistrosDeUsuarioDialogComponent implements OnInit  {
           this.hilosPosteados.update(r => [...r, ...registros])
         })
     
-        var response = this.http.get<ApiResponse<Registro[]>>(`/api/registros/comentarios/usuario/${this.id()}`)
+        var response = this.http.get<ApiResponse<Registro[]>>(`/api/registros/comentarios/usuario/${this.data.id}`)
     
         response.pipe(
           map(r => r.data)
@@ -65,4 +69,9 @@ export class VerRegistrosDeUsuarioDialogComponent implements OnInit  {
       }
     );
   }
+}
+
+
+interface VerUsuarioDialogData{
+  id:string;
 }

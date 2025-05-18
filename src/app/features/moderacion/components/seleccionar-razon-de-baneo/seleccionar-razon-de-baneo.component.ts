@@ -1,5 +1,6 @@
-import { Component, model, output } from '@angular/core';
+import { Component, inject, model, output } from '@angular/core';
 import { DialogComponent } from "../../../../shared/components/dialog/dialog.component";
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-seleccionar-razon-de-baneo',
@@ -15,11 +16,14 @@ export class SeleccionarRazonDeBaneoComponent {
       "Otro"
   ];
 
-  visible = model.required<boolean>()
+  data = inject<SeleccionarRazonDialogData>(DIALOG_DATA)
 
-  onRazonSeleccionada = output<number>();
+  dialogRef = inject(DialogRef)
 
   get razones () : string [] {
     return SeleccionarRazonDeBaneoComponent.RAZONES;
   }
+}
+interface SeleccionarRazonDialogData {
+  onRazonSeleccionada : (idx : number)=> {}
 }

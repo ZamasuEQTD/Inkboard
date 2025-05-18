@@ -1,4 +1,4 @@
-import { Component, input, model } from '@angular/core';
+import { Component, effect, input, model, OnDestroy, output, ViewChild } from '@angular/core';
 import { DialogHeaderComponent } from "./components/dialog-header/dialog-header.component";
 
 @Component({
@@ -10,12 +10,12 @@ import { DialogHeaderComponent } from "./components/dialog-header/dialog-header.
 export class DialogComponent {
   title = input<string>();
 
-  visible = model.required<boolean>();
+  fullScreenOnMobile = input<boolean>(true)
 
+  onClose  = output<void>()
 
-  toggleVisible() : void {
-    this.visible.update((visible) => !visible);
+  close(){
+    this.onClose.emit();
   }
-
 }
 

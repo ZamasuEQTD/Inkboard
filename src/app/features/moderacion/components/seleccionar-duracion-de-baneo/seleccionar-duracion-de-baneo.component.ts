@@ -1,5 +1,6 @@
 import { Component, inject, model, output } from '@angular/core';
 import { DialogComponent } from "../../../../shared/components/dialog/dialog.component";
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-seleccionar-duracion-de-baneo',
@@ -17,11 +18,14 @@ export class SeleccionarDuracionDeBaneoComponent {
       "Permanente"
     ];
   
-    onDuracionSeleccionada = output<number>()
+    data = inject<SeleccionarDuracionDialogData>(DIALOG_DATA);
 
-    visible = model.required<boolean>()
+    dialogRef = inject(DialogRef)
 
     get durations(): string []{
       return SeleccionarDuracionDeBaneoComponent.DURATIONS;
     }
+}
+interface SeleccionarDuracionDialogData {
+  onDuracionSeleccionada : (idx : number)=> {}
 }
