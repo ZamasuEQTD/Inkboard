@@ -1,87 +1,81 @@
-<div  class="w-full bg-gray-300/50  rounded-xl p-2 flex flex-col" [ngClass]="{'border-t-2 border-yellow-500': comentario().destacado}" #comentarioRef>
-  
-    <div class="flex flex-row justify-between items-center mb-1">
-  
-      <div class="flex flex-row items-center gap-x-1">
-        
-        <comentario-color [color]="comentario().color">
-          <span class="font-bold text-white">{{comentario().dados ?? (comentario().es_op && comentario().autor_role == "Anonimo" ? 'OP': comentario().autor_role | autorRole |uppercase)}}</span>
-        </comentario-color>
-  
-        <div class="flex flex-wrap gap-x-1 gap-y-[2px] items-center mb-1">
-          <span class="text-xs font-bold">{{comentario().autor}}</span>
-          
-          <span class="text-xs font-semibold text-blue-500">{{comentario().autor_role}}</span>
-          
-          @if (comentario().es_op) {
-            <div class="bg-white text-xs px-2 py-1 rounded-lg font-semibold">OP</div>
-          }
-  
-          @if (comentario().destacado) {
-            <div class="bg-yellow-200 text-xs px-2 py-1 rounded-lg">Destacado</div>
-          }
-  
-          <div (click)="service.tagguearComentario(comentario().tag)" class="bg-white text-xs px-2 py-1 rounded-lg cursor-pointer font-semibold">{{comentario().tag}}</div>
-  
-          @if (comentario().tag_unico) {
-            <div class="text-white text-xs px-2 py-1 rounded-lg font-semibold" [ngClass]="colorTagUnico">{{comentario().tag_unico}}</div>
-          }
-        </div>
-  
-      </div>
-  
-      <div class="items-center flex flex-row gap-x-1">
-  
-        <span class="text-sm text-gray-400">{{comentario().created_at | tiempoTranscurrido}}</span>
-  
-        <app-opciones-de-comentario-button [comentario]="comentario()" /> 
-        
-      </div>
-  
-    </div>
-  
-    <div id="respuestas-comentario-wrap" class="flex flex-wrap gap-x-0.5 cursor-pointer">
-      @for (tag of comentario().respondido_por; track $index) {
-        <div class="cursor-pointer" (click)="irComentario(tag)" (mouseenter)="mostrarRespuesta(tag)" (mouseleave)="ocultarRespuesta()">
-          <span class=" text-blue-600 text-sm">>>{{tag}}</span>
-        </div>
-      }
-    </div>
-  
-    @if (comentario().media) {
-        <div class="flex justify-center"> 
-            <app-media-box
+<div class="w-full bg-background-base rounded-xl p-2 flex flex-col"
+  [ngClass]="{'border-t-2 border-yellow-500': comentario().destacado}" #comentarioRef>
 
-                class="overflow-hidden rounded-md"
-                [media]="comentario().media!" 
-                [dimensionbleOptions]="{
-                    size: {
-                        maxHeight: '500px',
-                    }
-                }">
-                <app-blur-advertencia 
-                    class="
-                    top-0
-                    size-full
-                    absolute"
-                    [(spoiler)]="comentario().media!.spoiler"
-                    dimensionable/> 
-            </app-media-box> 
-        </div>
-    }
-    <div>
-  
-    <span class="break-words">{{comentario().texto}}</span>
+  <div class="flex flex-row justify-between items-center mb-1">
+
+    <div class="flex flex-row items-center gap-x-1">
+
+      <comentario-color [color]="comentario().color">
+        <span class="font-bold text-white">{{comentario().dados ?? (comentario().es_op && comentario().autor_role ==
+          "Anonimo" ? 'OP': comentario().autor_role | autorRole |uppercase)}}</span>
+      </comentario-color>
+
+      <div class="flex flex-wrap gap-x-1 gap-y-[2px] items-center mb-1">
+        <span class="text-xs font-bold">{{comentario().autor}}</span>
+
+        <span class="text-xs font-semibold text-blue-500">{{comentario().autor_role}}</span>
+
+        @if (comentario().es_op) {
+        <div class="bg-white text-xs px-2 py-1 rounded-lg font-semibold">OP</div>
+        }
+
+        @if (comentario().destacado) {
+        <div class="bg-yellow-200 text-xs px-2 py-1 rounded-lg">Destacado</div>
+        }
+
+        <div (click)="service.tagguearComentario(comentario().tag)"
+          class="bg-white text-xs px-2 py-1 rounded-lg cursor-pointer font-semibold">{{comentario().tag}}</div>
+
+        @if (comentario().tag_unico) {
+        <div class="text-white text-xs px-2 py-1 rounded-lg font-semibold" [ngClass]="colorTagUnico">
+          {{comentario().tag_unico}}</div>
+        }
+      </div>
+
+    </div>
+
+    <div class="items-center flex flex-row gap-x-1">
+
+      <span class="text-sm text-gray-400">{{comentario().created_at | tiempoTranscurrido}}</span>
+
+      <app-opciones-de-comentario-button [comentario]="comentario()" />
 
     </div>
 
   </div>
 
+  <div id="respuestas-comentario-wrap" class="flex flex-wrap gap-x-0.5 cursor-pointer">
+    @for (tag of comentario().respondido_por; track $index) {
+    <div class="cursor-pointer" (click)="irComentario(tag)" (mouseenter)="mostrarRespuesta(tag)"
+      (mouseleave)="ocultarRespuesta()">
+      <span class=" text-blue-600 text-sm">>>{{tag}}</span>
+    </div>
+    }
+  </div>
 
-  @if (this.hayComentarioSeleccionado()) {
-    <app-comentario 
-        class="fixed  p-2 bg-white min-w-[450px] shadow-lg rounded-md z-50 right-[55.5%]"
-        [style.top.px]="hoverPosition.top"
-        [comentario]="this.comentarioSeleccionado()!" 
-    /> 
+  @if (comentario().media) {
+  <div class="flex justify-center">
+
+    <app-blur-advertencia class="rounded-xl overflow-hidden" [(spoiler)]="comentario().media!.spoiler">
+      <app-media-box [media]="comentario().media!" [dimensionbleOptions]="{
+                    size: {
+                        maxHeight: '500px',
+                    }
+                }">
+      </app-media-box></app-blur-advertencia>
+
+  </div>
+  }
+  <div>
+
+    <span class="break-words">{{comentario().texto}}</span>
+
+  </div>
+
+</div>
+
+
+@if (this.hayComentarioSeleccionado()) {
+<app-comentario class="fixed  p-2 bg-white min-w-[450px] shadow-lg rounded-md z-50 right-[55.5%]"
+  [style.top.px]="hoverPosition.top" [comentario]="this.comentarioSeleccionado()!" />
 }

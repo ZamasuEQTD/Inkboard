@@ -31,7 +31,7 @@ export class ComentarioComponent {
 
   hayComentarioSeleccionado = computed(()=> !!this.comentarioSeleccionado());
 
-  scroll = input<HTMLElement>()
+  scroll = input<HTMLElement | undefined>()
 
   hoverPosition = { top: 0, left: 0 };
 

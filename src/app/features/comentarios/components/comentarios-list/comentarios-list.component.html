@@ -1,6 +1,6 @@
 <div class="flex flex-col gap-y-1 px-1 pb-2" #scroll>
     @for (comentario of comentarios(); track $index) {
-    <app-comentario [id]="comentario.tag" [comentario]="comentario"  [scroll]="this.scroll!.nativeElement"/>
+    <app-comentario [id]="comentario.tag" [comentario]="comentario"  [scroll]="this.scroll?.nativeElement"/>
     }
 
     @if(cargandoComentarios()){
