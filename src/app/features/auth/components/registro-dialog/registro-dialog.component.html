@@ -1,8 +1,8 @@
-<app-dialog title="Registrarse" [(visible)]="visible">
+<app-dialog title="Registrarse" >
         <span class="text-lg text-[oklab(0.322425_0.00154591_-0.010555)] font-semibold ">
             <span>¡Bienvenido! Crea una cuenta para continuar</span>
             <br>
-            <span>¿Ya tienes cuenta? <span (click)="this.visible.set(false);this.login.set(true)" class="text-indigo-600 cursor-pointer">Inicia sesión</span> </span>
+            <span>¿Ya tienes cuenta? <span (click)="this.dialogRef.close();this.mostrarLogin()" class="text-indigo-600 cursor-pointer">Inicia sesión</span> </span>
         </span>
 
        <app-form-section label="Usuario">

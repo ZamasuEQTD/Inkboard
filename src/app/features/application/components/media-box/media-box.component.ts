@@ -9,7 +9,7 @@ import { Media } from '../../interfaces/media.interface';
 })
 export class MediaBoxComponent {
 
-  static dimensionables :string [] = ['youtube', 'imagen', 'gif' ,'video'];
+  static dimensionables :string [] = ['youtube', 'imagen', 'gif' ,'video', 'image'];
 
   media = input.required<Media>();
 
@@ -28,7 +28,7 @@ export class MediaBoxComponent {
   }
 
   get esImagen():boolean{
-    return this.media().provider === 'imagen' || this.media().provider === "gif"
+    return this.media().provider === 'imagen'  ||this.media().provider ==="image" || this.media().provider === "gif"
   }
 
   get esYoutube() :boolean {

@@ -1,4 +1,4 @@
-import { Component, inject, input, model } from '@angular/core';
+import { Component, Inject, inject, input, model } from '@angular/core';
 import { DialogComponent } from "../../../../shared/components/dialog/dialog.component";
 import { PasswordInputComponent } from "../password-input/password-input.component";
 import { FormSectionComponent } from "../../../../shared/components/form/form-section/form-section.component";
@@ -7,6 +7,8 @@ import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { ApiResponse } from '../../../application/interfaces/api-response.interface';
 import { map } from 'rxjs';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
+import { RegistroDialogComponent } from '../registro-dialog/registro-dialog.component';
 
 @Component({
   selector: 'app-login-dialog',
@@ -15,9 +17,7 @@ import { map } from 'rxjs';
   styleUrl: './login-dialog.component.css',
 })
 export class LoginDialogComponent {
-  visible = model.required<boolean>();
-
-  registro = model.required<boolean>();
+  dialogRef = inject(DialogRef);
 
   fb = inject(FormBuilder);
 
@@ -30,6 +30,12 @@ export class LoginDialogComponent {
 
   http = inject(HttpClient);
 
+  dialog = Inject(Dialog)
+
+  mostrarRegistro(){
+    this.dialog.open(RegistroDialogComponent);
+  }
+
   login() :void {  
     this.http.post<ApiResponse<string>>('/api/auth/login', {
       username : this.form.value.usuario,
@@ -39,7 +45,7 @@ export class LoginDialogComponent {
     ).subscribe((token) => {
       this.auth.token.set(token);
 
-      this.visible.set(false);
+      this.dialogRef.close();
     });
   }
 }

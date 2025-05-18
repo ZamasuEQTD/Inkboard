@@ -1,9 +1,9 @@
 
-<app-dialog title="Iniciar sesión" [(visible)]="visible">
+<app-dialog title="Iniciar sesión" (onClose)="dialogRef.close()" #dialog>
         <span class="text-lg text-secondary-text font-semibold">
             <span>¡Bienvenido! Nos alegra tenerte aquí.</span>
             <br>
-            <span>¿No tienes cuenta? <span (click)="visible.set(false); registro.set(true)" class="text-indigo-600 cursor-pointer">Registrate</span> </span>
+            <span>¿No tienes cuenta? <span (click)="dialog.close();" class="text-indigo-600 cursor-pointer">Registrate</span> </span>
         </span>
 
         <app-form-section label="Usuario">

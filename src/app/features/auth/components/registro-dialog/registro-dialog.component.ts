@@ -7,6 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ApiResponse } from '../../../application/interfaces/api-response.interface';
 import { map } from 'rxjs';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
+import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 
 @Component({
   selector: 'app-registro-dialog',
@@ -15,7 +17,6 @@ import { map } from 'rxjs';
   styleUrl: './registro-dialog.component.css',
 })
 export class RegistroDialogComponent {
-  visible = model.required<boolean>();
 
   fb = inject(FormBuilder);
 
@@ -25,11 +26,13 @@ export class RegistroDialogComponent {
     confirmacion: this.fb.control<string>("")
   })
 
-  login = model.required<boolean>();
-
   auth = inject(AuthService)
 
   http = inject(HttpClient);
+
+  dialogRef = inject(DialogRef)
+
+  dialog = inject(Dialog);
 
   registrarse() : void {
     this.http.post<ApiResponse<string>>('/api/auth/registrarse', {
@@ -40,7 +43,11 @@ export class RegistroDialogComponent {
     ).subscribe((token) => {
       this.auth.token.set(token)
     
-      this.visible.set(false)
+      this.dialogRef.close()
     });
+  }
+
+  mostrarLogin() : void {
+    this.dialog.open(LoginDialogComponent);    
   }
 }

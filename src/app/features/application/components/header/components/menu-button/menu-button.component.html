@@ -1,9 +1,9 @@
-<button class="size-10 text-xl" (click)="toggleMenu()">
+<button class="size-10 text-xl relative" (click)="toggleMenu()">
     <i class="fa-solid fa-bars"></i>
 </button>
 
 @if (mostrarMenu()) {
-    <div class="fixed top-0 left-0 w-full h-full bg-gray-900 opacity-50 z-50" (click)="toggleMenu()"> </div>
+    <div class="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 opacity-50 z-50" (click)="toggleMenu()"> </div>
     <div class="fixed top-0 w-2xs h-full flex items-center bg-white right-0 z-51 px-1">
         <div class="w-full"> 
             @if (autenticado) {
@@ -20,15 +20,11 @@
                 </div>
 
                 <div>
-                    <button class="primary-button rounded-2xl! w-full mb-1" (click)="mostrarLogin.set(true)">Iniciar sesión</button>
+                    <button class="primary-button text-button rounded-2xl! mb-1" (click)="mostrarLogin()">Iniciar sesión</button>
 
-                    <button class="secondary-button rounded-2xl! w-full" (click)="mostrarRegistro.set(true)">Registrarse</button>
+                    <button class="secondary-button text-button rounded-2xl!" (click)="mostrarRegistro()">Registrarse</button>
                 </div>
             }
         </div>
-    </div>
+   </div>
 }
-
-<app-login-dialog  [(visible)]="mostrarLogin" [(registro)]="mostrarRegistro"/>
-
-<app-registro-dialog [(visible)]="mostrarRegistro" [(login)]="mostrarLogin" /> 

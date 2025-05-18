@@ -5,10 +5,11 @@ import { MenuGroupComponent } from "../../../../../../shared/components/menu-gro
 import { DialogComponent } from "../../../../../../shared/components/dialog/dialog.component";
 import { LoginDialogComponent } from "../../../../../auth/components/login-dialog/login-dialog.component";
 import { RegistroDialogComponent } from "../../../../../auth/components/registro-dialog/registro-dialog.component";
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'header-menu-button',
-  imports: [MenuGroupComponent, LoginDialogComponent, RegistroDialogComponent],
+  imports: [MenuGroupComponent],
   templateUrl: './menu-button.component.html',
   styleUrl: './menu-button.component.css',
 })
@@ -17,10 +18,6 @@ export class MenuButtonComponent {
   mostrarMenu = signal(false);
 
   auth = inject(AuthService);
-
-  mostrarLogin = signal<boolean>(false);
-
-  mostrarRegistro = signal<boolean>(false);
 
   items: MenuGroup[] = [
     {
@@ -52,6 +49,8 @@ export class MenuButtonComponent {
     },
   ];
 
+  dialog = inject(Dialog);
+
   esconderScroll = effect(() => {
     if (this.mostrarMenu()) {
       document.body.style.overflow = 'hidden';
@@ -59,6 +58,14 @@ export class MenuButtonComponent {
       document.body.style.overflow = 'auto';
     }
   });
+
+  mostrarLogin () {
+    this.dialog.open(LoginDialogComponent);
+  }
+  
+  mostrarRegistro () {
+    this.dialog.open(RegistroDialogComponent);
+  }
 
   toggleMenu() : void {
     this.mostrarMenu.update((mostrar )=> !mostrar);
