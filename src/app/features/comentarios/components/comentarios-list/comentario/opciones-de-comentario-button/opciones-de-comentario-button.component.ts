@@ -4,6 +4,8 @@ import { Comentario } from '../../../../interface/comentario.interface';
 import { HiloPageService } from '../../../../../hilos/services/hilo-page.service';
 import { AuthService } from '../../../../../auth/services/auth.service';
 import { MenuGroup } from '../../../../../../shared/interfaces/menu.interface';
+import { Dialog } from '@angular/cdk/dialog';
+import { VerRegistrosDeUsuarioDialogComponent } from '../../../../../moderacion/components/ver-registros-de-usuario-dialog/ver-registros-de-usuario-dialog.component';
 
 @Component({
   selector: 'app-opciones-de-comentario-button',
@@ -20,6 +22,8 @@ export class OpcionesDeComentarioButtonComponent {
   hiloService = inject(HiloPageService);
 
   authService = inject(AuthService);
+
+  dialog = inject(Dialog)
 
   ngOnInit() {
     document.addEventListener('click', this.handleClickOutside.bind(this));
@@ -79,7 +83,18 @@ export class OpcionesDeComentarioButtonComponent {
         ? [
             {
               items: [
-                { label: 'Ver usuario', icon: 'fas fa-user' },
+                { 
+                  label: 'Ver usuario', 
+                  icon: 'fas fa-user' , 
+                  onTap: () => {
+                    this.dialog.open(VerRegistrosDeUsuarioDialogComponent, 
+                    {
+                      data :{
+                        id:this.comentario().autor_id!
+                      }
+                    })
+                  }
+                },
                 { label: 'Eliminar', icon: 'fa-solid fa-trash' }
               ],
               separator: true
