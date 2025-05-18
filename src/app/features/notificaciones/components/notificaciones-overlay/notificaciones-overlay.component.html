@@ -1,0 +1,16 @@
+<div #ref class="bg-white flex flex-col shadow-2xl sm:border-input-border sm:border-1 sm:rounded-xl  w-screen h-screen sm:min-h-[350px] sm:h-auto sm:max-h-[500px] sm:w-[450px] z-[999999999]">
+    <app-dialog-header title="Mis notificaciones" (onClose)="close()"/>
+    
+    <div class="px-2 pb-2 flex flex-col justify-between flex-1 items-start">
+       <div>
+            @for (notificacion of notificaciones(); track $index) {
+                <app-notificacion [notificacion]="notificacion" (onTap)="leer(notificacion)" />
+            }
+        
+        </div>
+        <button        
+            [class]="notificaciones().length === 0? 'secondary-button ':'primary-button'"
+            class="text-button"
+        >Leer todas</button>
+    </div>
+</div>

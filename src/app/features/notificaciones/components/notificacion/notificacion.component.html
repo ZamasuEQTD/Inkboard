@@ -1,0 +1,33 @@
+<div class="flex-col p-2 rounded-xl border-1 border-input-border shadow-sm cursor-pointer" (click)="onTap.emit()">
+    <div class="flex flex-row gap-x-2">
+      <div class="size-14 rounded-md flex-shrink-0 overflow-hidden ">
+        <img [src]="this.notificacion().hilo.portada" alt="" class="w-full h-full object-cover" />
+      </div>
+      <div class="flex-1 flex items-center">
+        <span class="line-clamp-2 text-sm">
+          @switch (this.notificacion().tipo) { @case ("HiloComentado") {
+            <span>Han comentado tu hilo <span class="font-semibold">{{ this.notificacion().hilo.titulo }}</span></span>
+          } 
+          @case ("ComentarioRespondido") {
+            <span>Han respondido tu comentario
+              <span class="font-semibold">{{ this.notificacion().comentario_respondido_tag }}</span> en el hilo
+              <span class="font-semibold">{{ this.notificacion().hilo.titulo }}</span>
+            </span>
+          } @default {
+            <span>Han comentado el hilo <span class="font-semibold">{{ this.notificacion().hilo.titulo }}</span></span>
+          } 
+        }
+        </span>
+      </div>
+    </div>
+
+    <span class="text-sm line-clamp-3">{{ this.notificacion().contenido }}</span>
+
+    <div>
+      <span class="text-xs text-light-muted">
+        Hace {{ this.notificacion().fecha | tiempoTranscurrido }}
+      </span>
+    </div>
+</div>
+
+       

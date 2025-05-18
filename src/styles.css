@@ -5,14 +5,23 @@
 @layer theme, base, components, utilities;
 
 @theme {
+    --color-light-primary:var(--color-indigo-500);
+    --color-light-primary-hover:var(--color-indigo-600);
+    --color-light-on-primary: var(--color-white);
+
+    --color-light-icon:var();
+
+
+    --color-background-base: oklab(0.964355 0.000418752 -0.00125641);
+}
+
+@theme {
     --light-background: #ffffff;
     --light-primary-text:#000000;
     --light-secondary-text: #555555;
 
     --light-muted-background: #f0f0f0;
     --light-muted-text: #888888;
-    --color-mint-500: oklch(0.72 0.11 178);
-
 
     --color-subcategoria-tag: var(--color-green-500);
     --color-nuevo-tag: var(--color-blue-500);
@@ -28,10 +37,15 @@
 
     --color-light-muted:oklab(0.491651 0.00312106 -0.0155715);
     --color-secondary-text:oklab(0.322425 0.00154591 -0.010555);
-    --color-input-bg: oklab(0 0 0/0.0784314);
+
+    --color-input: oklab(0 0 0/0.0784314);
     --color-input-border: oklab(0.678888 0.00325716 -0.011175/0.360784);
 
     --color-light-menu-icon: oklab(0.310123 0.00108959 -0.00894994);
+
+    --color-primary-button: var(--color-light-primary);
+
+
 }
 
 @layer utilities {
@@ -47,57 +61,69 @@
         @apply animate-pulse bg-light-on-skeleton-background;
     }
 
-    .icon-button {
-        @apply  bg-light-button text-light-on-button rounded-md p-2;
-    }
-
     .outlined-white-button {
         @apply  border border-white text-white rounded-xl font-light px-4 py-2;
     }
 
     input, textarea {
-        @apply  bg-input-bg text-secondary-text  border-input-border border-1 rounded-md focus:outline-none   px-3 py-2 outline-none;
+        @apply  bg-input text-secondary-text  border-input-border border-1 rounded-md focus:outline-none   px-3 py-2 outline-none;
     }
     
     textarea {
         @apply resize-none;
-    }
+    }    
+}
 
-    .primary-flat-button {
-        @apply bg-light-button text-light-on-button rounded-xl p-2;
+@layer components {
+    .primary-button {
+       @apply bg-light-primary hover:bg-light-hover-button text-light-on-primary
     }
 
     .secondary-button {
         @apply bg-[rgba(151,151,159,0.12)]! hover:bg-[oklab(0_0_0/0.09)]! text-[oklab(0.564529_0.00262919_-0.0135428)]!
     }
-}
 
-@layer components {
-    .primary-button {
-        @apply bg-light-button hover:bg-light-hover-button text-light-on-button font-semibold min-h-11 min-w-24 w-full rounded-lg ;
+    .danger-button {
+        @apply bg-red-500 hover:bg-red-600/85 text-white
     }
 
-    .secondary-button {
-        @apply 
-            font-semibold 
-            min-h-11 
-            min-w-24 
-            w-full 
-            rounded-lg 
-            bg-[rgba(151,151,159,0.12)] 
-            text-[oklab(0.564529_0.00262919_-0.0135428)]
-            hover:bg-[oklab(0_0_0/0.09)];
+    .icon-button {
+        @apply text-light-muted hover:bg-gray-200/50  hover:text-black rounded-md;
+    }
 
-        i {
+    .destructive-icon-button{
+        @apply hover:bg-red-100 hover:text-red-400 text-red-400/80
+    }
+
+    .text-button {
+        @apply  font-semibold min-h-11 min-w-24 w-full rounded-lg;
+        i, svg {
             @apply 
                 text-light-muted
                 mr-2
+        };
+
+        img {
+            @apply w-full h-full object-cover rounded-md overflow-hidden
         }
     }
 
-    
-}
+    }
  
+ @media screen and (max-width: 40rem) {
+  .overlay-custom {
+    width: 100vw !important;
+    height: 100vh !important;
+    font-size: 14px !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+
+  .overlay-custom .cdk-overlay-pane{
+    transform: translateY(0px) !important;
+    right: 0 !important;
+  }
+  }
 .fade-gradient {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.5) 100%);
 }
