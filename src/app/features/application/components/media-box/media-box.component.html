@@ -1,17 +1,29 @@
 @if (this.esDimensionable()) {
    <div class="relative">
     <div 
-        [className]="this.dimensionbleOptions()?.class"
-        [style]="{
-            'max-width': this.dimensionbleOptions()?.size?.maxWidth,
-            'max-height': this.dimensionbleOptions()?.size?.maxHeight
-        }">
+        [className]="this.dimensionbleOptions()?.class?? ''"
+        >
         @if(this.esImagen) {
-            <img [src]="this.media().url" alt="">
+            <img 
+                [src]="this.media().url" 
+                alt=""
+                [style]=" {
+                    'max-width': this.dimensionbleOptions()?.size?.maxWidth,
+                    'max-height': this.dimensionbleOptions()?.size?.maxHeight
+                }"
+            >
         }
 
         @if (this.esVideo) {
-            <video [src]="this.media().url" controls="controls" [poster]="this.media().previsualizacion"></video>
+            <video 
+                [src]="this.media().url" 
+                [poster]="this.media().previsualizacion" 
+                controls="controls" 
+                [style]=" {
+                    'max-width': this.dimensionbleOptions()?.size?.maxWidth,
+                    'max-height': this.dimensionbleOptions()?.size?.maxHeight
+                }"
+            ></video>
         }
     </div>
 
