@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { HeaderComponent } from "../../../application/components/header/header.component";
 import { PortadasComponent } from "../../../hilos/components/portadas/portadas.component";
 import { Portada } from '../../../hilos/interfaces/portada.interface';
@@ -8,15 +8,19 @@ import { ApiResponse } from '../../../application/interfaces/api-response.interf
 import { map } from 'rxjs';
 import { FiltrosDeHiloComponent } from "../../../application/components/filtros-de-hilo/filtros-de-hilo.component";
 import { ActivatedRoute } from '@angular/router';
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { HomeSignalrService } from '../../services/home-signalr.service';
 
 @Component({
   selector: 'app-home-page',
-  imports: [HeaderComponent, PortadasComponent, PostearHiloButtonComponent, FiltrosDeHiloComponent,InfiniteScrollDirective],
+  imports: [HeaderComponent, PortadasComponent, PostearHiloButtonComponent, FiltrosDeHiloComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css',
 })
-export class HomePageComponent implements OnInit{
+export class HomePageComponent implements OnInit, OnDestroy{
+
+  ngOnDestroy(): void {
+    this.signalr.stop()
+  }
  
   portadas = signal<Portada[]>([]);
 
@@ -26,9 +30,21 @@ export class HomePageComponent implements OnInit{
 
   private readonly router = inject(ActivatedRoute);
 
+  private readonly signalr = inject(HomeSignalrService)
+
   ngOnInit(): void {
     this.cargandoPortadas.set(true);
     
+    this.signalr.start(()=> {
+      this.signalr.addOnHiloEliminadoListener((id:string)=>{
+        this.portadas.update((portadas)=> portadas.filter((p)=> p.id !== id));
+      });
+
+      this.signalr.addOnHiloPosteadoListener((portada)=> {
+        this.portadas.update((portadas)=> [portada,...portadas])
+      })
+    });
+
     this.router.queryParams.subscribe((params)=> {
       this.http.get<ApiResponse<Portada[]>>("/api/hilos", {
         params : {

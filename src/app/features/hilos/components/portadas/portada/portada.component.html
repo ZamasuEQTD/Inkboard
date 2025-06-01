@@ -7,7 +7,8 @@
         </div>
 
         <div class="absolute top-0 p-1 fade-gradient h-full w-full flex flex-col justify-between">
-            <div class="flex flex-wrap gap-[0.125rem] text-white text-sm">
+            <div class="flex flex-row items-center justify-between">
+                <div class="flex flex-wrap gap-[0.125rem] text-white text-sm ">
                 <span class="tag bg-subcategoria-tag">{{ this.portada().subcategoria }}</span> 
             
                 @if (portada().es_nuevo) {
@@ -33,7 +34,19 @@
                 }
             </div>
 
+            <button class="size-5 cursor-pointer text-white text-xl" (click)="$event.stopImmediatePropagation();$event.preventDefault();showOpciones()" #opcionesButton>
+                <i class="fa-solid fa-ellipsis-v"></i>
+            </button>
+
+            </div>
+
             <span class="text-lg font-semibold line-clamp-2 text-white">{{ this.portada().titulo }}</span>
         </div>
     </div>
 </a>
+
+
+
+<app-custom-overlay #opciones>
+    <app-menu [grupos]="this.opciones"></app-menu>
+</app-custom-overlay>
