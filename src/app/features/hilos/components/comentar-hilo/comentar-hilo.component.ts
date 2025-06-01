@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild, viewChild } from '@angular/core';
 import { HiloPageService } from '../../services/hilo-page.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -6,10 +6,15 @@ import { PickedMedia } from '../../../../shared/interfaces/picked-media.interfac
 import { PickFileComponent } from "../../../../shared/components/pick-file/pick-file.component";
 import { PickedMediaThumbnailComponent } from "../../../../shared/components/picked-media-thumbnail/picked-media-thumbnail.component";
 import { HttpClient } from '@angular/common/http';
+import { CustomOverlayComponent } from "../../../../shared/components/custom-overlay/custom-overlay.component";
+import { MenuGroupComponent } from "../../../../shared/components/menu-group/menu-group.component";
+import { MenuGroup } from '../../../../shared/interfaces/menu.interface';
+import { Overlay } from '@angular/cdk/overlay';
+import { MenuComponent } from "../../../../shared/components/menu/menu.component";
 
 @Component({
   selector: 'comentar-hilo',
-  imports: [ReactiveFormsModule, CommonModule, PickFileComponent, PickedMediaThumbnailComponent],
+  imports: [ReactiveFormsModule, CommonModule, PickFileComponent, PickedMediaThumbnailComponent, CustomOverlayComponent, MenuGroupComponent, MenuComponent],
   templateUrl: './comentar-hilo.component.html',
   styleUrl: './comentar-hilo.component.css',
 })
@@ -19,6 +24,51 @@ export class ComentarHiloComponent {
   form = this.hiloPageService.comentarHiloForm;
 
   http = inject(HttpClient)
+
+
+
+  @ViewChild("filePicker") filePickerRef! : PickFileComponent
+
+  @ViewChild("opcionesComentarioButton") opcionComentarioButtonRef! : ElementRef<HTMLElement>;
+
+  @ViewChild("opcionesComentario") opcionesComentarioRef! : CustomOverlayComponent;
+
+  opcionesComentario : MenuGroup[] = [{
+    items : [
+      {
+        label: "Agregar archivo",
+        icon: "fa fa-file",
+        onTap : () => {
+          this.filePickerRef.pick()
+        },
+      },
+      {
+        label: "Agregar enlace",
+        icon: "fa fa-link",
+        onTap: () => {
+        }
+      }
+    ]
+  }]
+
+  overlay = inject(Overlay)
+
+  openOpciones(){
+    var ref = this.overlay.create({
+       hasBackdrop:true,
+      backdropClass: "bg-transparent",
+      positionStrategy: this.overlay.position().flexibleConnectedTo(this.opcionComentarioButtonRef).withPositions([{
+        originX: 'end',
+        originY: 'top',
+        overlayX: 'end',
+        overlayY: 'bottom',
+      }
+      ])
+    });
+
+
+    this.opcionesComentarioRef.show(ref)
+  }
 
   get textoControl(): FormControl {
     return this.form.get('texto') as FormControl;

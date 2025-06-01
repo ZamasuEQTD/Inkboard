@@ -9,4 +9,6 @@ import { Component, input } from '@angular/core';
 })
 export class ColorComponent {
   color = input.required<string>();
+
+  label = input.required<string>();
 }

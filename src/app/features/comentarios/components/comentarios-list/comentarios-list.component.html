@@ -1,11 +1,24 @@
-<div class="flex flex-col gap-y-1 px-1 pb-2" #scroll>
-    @for (comentario of comentarios(); track $index) {
-    <app-comentario [id]="comentario.tag" [comentario]="comentario"  [scroll]="this.scroll?.nativeElement"/>
+<div class="flex flex-col gap-y-1 px-1 pb-2" #scroll  >
+    @for (comentario of comentarios(); track comentario.id + comentario.destacado) {
+        <app-comentario [id]="comentario.tag" [comentario]="comentario"  [scroll]="this.scroll?.nativeElement"/>
     }
 
     @if(cargandoComentarios()){
         @for (_ of [].constructor(5); track $index) {
+            <div class=" w-full rounded-md bg-skeleton mb-2 p-2">
                 
+                
+                <div class="size-[50px] rounded-md bg-white"></div>
+
+                <span class="flex flex-wrap gap-x-1">
+                    <span class="h-[20px] w-[250px] rounded bg-white mt-2"></span>
+                    <span class="h-[20px] w-[50px] rounded bg-white mt-2"></span>
+                    <span class="h-[20px] w-[100px] rounded bg-white mt-2"></span>
+                    <span class="h-[20px] w-[20px] rounded bg-white mt-2"></span>
+                    <span class="h-[20px] w-[30px] rounded bg-white mt-2"></span>
+                    <span class="h-[20px] w-[350px] rounded bg-white mt-2"></span>
+                </span>
+            </div>
         }
     }
 </div>

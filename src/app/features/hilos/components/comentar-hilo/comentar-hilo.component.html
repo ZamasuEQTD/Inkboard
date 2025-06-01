@@ -50,7 +50,7 @@
                     [value]="form.value.texto"
                 ></textarea>
 
-              <button class="absolute top-1 left-0 size-10 flex justify-center items-center" (click)="filePicker.pick()" type="button">
+              <button #opcionesComentarioButton class="absolute top-1 left-0 size-10 flex justify-center items-center" (click)="openOpciones()" type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                   class="lucide lucide-bolt">
@@ -71,3 +71,8 @@
           </div>
     </form>
 </div>
+
+
+<app-custom-overlay #opcionesComentario>
+  <app-menu [grupos]="this.opcionesComentario"/>
+</app-custom-overlay>

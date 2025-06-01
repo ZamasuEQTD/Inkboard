@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, inject, input, model, signal, ViewChild, viewChild } from '@angular/core';
+import { Component, computed, ElementRef, inject, input, model, OnInit, signal, ViewChild, viewChild } from '@angular/core';
 import { Comentario } from '../../../interface/comentario.interface';
 import { CommonModule } from '@angular/common';
 import { ColorComponent } from "./color/color.component";
@@ -9,7 +9,7 @@ import { MediaBoxComponent } from "../../../../application/components/media-box/
 import { BlurAdvertenciaComponent } from "../../../../../shared/components/blur-advertencia/blur-advertencia.component";
 import { OpcionesDeComentarioButtonComponent } from "./opciones-de-comentario-button/opciones-de-comentario-button.component";
 import { HiloPageService } from '../../../../hilos/services/hilo-page.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-comentario',
@@ -19,10 +19,24 @@ import { Router } from '@angular/router';
 })
 
 
-export class ComentarioComponent {
-  route = inject(Router)
+export class ComentarioComponent implements OnInit{
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+
+      const tag =params["comentario"];
+      
+      this.destacar.set(tag && tag == this.comentario().tag);
+    });
+  }
+
+  destacar = signal<boolean>(false);
+
+  router = inject(Router)
+
   service = inject(HiloPageService)
-    
+
+  route = inject(ActivatedRoute)
+  
   comentario = input.required<Comentario>();
 
   @ViewChild("comentarioRef") comentarioRef!: ElementRef<HTMLElement>
@@ -78,9 +92,9 @@ export class ComentarioComponent {
       return;
     }
 
-    await this.route.navigate(["/hilo", this.service.hilo()?.id])
+    await this.router.navigate(["/hilo", this.service.hilo()?.id])
 
-    await this.route.navigate([
+    await this.router.navigate([
       "/hilo", this.service.hilo()?.id], {
       replaceUrl: true,
       queryParams: {

@@ -6,18 +6,20 @@ import { AuthService } from '../../../../../auth/services/auth.service';
 import { MenuGroup } from '../../../../../../shared/interfaces/menu.interface';
 import { Dialog } from '@angular/cdk/dialog';
 import { VerRegistrosDeUsuarioDialogComponent } from '../../../../../moderacion/components/ver-registros-de-usuario-dialog/ver-registros-de-usuario-dialog.component';
+import { ComentariosService } from '../../../../services/comentarios.service';
+import { CustomOverlayComponent } from "../../../../../../shared/components/custom-overlay/custom-overlay.component";
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-opciones-de-comentario-button',
-  imports: [MenuComponent],
+  imports: [MenuComponent, CustomOverlayComponent],
   templateUrl: './opciones-de-comentario-button.component.html',
   styleUrl: './opciones-de-comentario-button.component.css',
 })
 export class OpcionesDeComentarioButtonComponent {
   comentario = input.required<Comentario>();
-  mostrarOpciones = signal<boolean>(false);
 
-  @ViewChild("opcionesRef") comentarioRef!: ElementRef<HTMLDivElement>;
+  @ViewChild("button") button!: ElementRef<HTMLDivElement>;
 
   hiloService = inject(HiloPageService);
 
@@ -25,18 +27,29 @@ export class OpcionesDeComentarioButtonComponent {
 
   dialog = inject(Dialog)
 
-  ngOnInit() {
-    document.addEventListener('click', this.handleClickOutside.bind(this));
-  }
+  comentariosService = inject(ComentariosService)
 
-  private handleClickOutside(event: MouseEvent) {
-    if (this.comentarioRef && !this.comentarioRef.nativeElement.contains(event.target as Node)) {
-      this.toggleOpciones();
-    }
-  }
+  overlay = inject(Overlay);
 
-  toggleOpciones() {
-    this.mostrarOpciones.set(!this.mostrarOpciones());
+  overlayRef? : OverlayRef
+
+  @ViewChild("opciones") menu!: CustomOverlayComponent;
+
+  mostraMenu(){
+  this.overlayRef = this.overlay.create({
+      backdropClass: "bg-transparent",
+      scrollStrategy: this.overlay.scrollStrategies.close(),
+      positionStrategy: this.overlay.position().flexibleConnectedTo(this.button).withPositions([{
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'end',
+        overlayY: 'top',
+        offsetY: 10 // Espacio entre el botón y el overlay
+      }
+      ])
+    });
+
+  this.menu.show(this.overlayRef);
   }
 
   get opciones(): MenuGroup[] {
@@ -53,7 +66,7 @@ export class OpcionesDeComentarioButtonComponent {
                   onTap: () => {
                     this.hiloService.setHistorialFromTags(this.comentario().respondido_por);
 
-                    this.mostrarOpciones.set(false)
+                    
                   }
                 }]
               : []
@@ -64,8 +77,11 @@ export class OpcionesDeComentarioButtonComponent {
       ...(this.hiloService.hilo()!.es_op
         ? [
             {
-              items: [{ label: 'Destacar', icon: 'fas fa-hashtag' }],
-              separator: true
+              items: [{ label: 'Destacar', icon: 'fas fa-hashtag',onTap: () => {
+                this.comentariosService.destacar(this.hiloService.hilo()!.id, this.comentario().id).subscribe();
+              } }],
+              separator: true,
+              
             }
           ]
         : []),
@@ -84,7 +100,7 @@ export class OpcionesDeComentarioButtonComponent {
             {
               items: [
                 { 
-                  label: 'Ver usuario', 
+                  label: 'Ver actividad', 
                   icon: 'fas fa-user' , 
                   onTap: () => {
                     this.dialog.open(VerRegistrosDeUsuarioDialogComponent, 
@@ -95,7 +111,9 @@ export class OpcionesDeComentarioButtonComponent {
                     })
                   }
                 },
-                { label: 'Eliminar', icon: 'fa-solid fa-trash' }
+                { label: 'Eliminar', icon: 'fa-solid fa-trash' , onTap : ()=> {
+                  this.comentariosService.eliminar(this.hiloService.hilo()!.id, this.comentario().id).subscribe();
+                }}
               ],
               separator: true
             }

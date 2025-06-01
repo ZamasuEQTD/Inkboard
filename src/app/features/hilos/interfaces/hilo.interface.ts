@@ -1,4 +1,5 @@
 import { Media } from "../../application/interfaces/media.interface";
+import { Encuesta } from "../../encuesta/interfaces/encuesta.interface";
 
 export interface Hilo {
   id:                     string;
@@ -11,22 +12,11 @@ export interface Hilo {
   subcategoria:           Subcategoria;
   created_at:             Date;
   media:                  Media;
-  encuesta?:               Encuesta;
+  encuesta?:              Encuesta;
   autor_role:             string;
   autor:         string
 }
 
-export interface Encuesta {
-  id:               string;
-  respuestas:       Respuesta[];
-  respuesta_votada: string;
-}
-
-export interface Respuesta {
-  id:        string;
-  respuesta: string;
-  votos:     number;
-} 
 
 export interface Subcategoria {
   id:     string;

@@ -1,11 +1,7 @@
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
-import { Hilo } from '../../interfaces/hilo.interface';
+import { Component, effect, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { HiloBodyComponent } from "../../components/hilo-body/hilo-body.component";
-import { ComentariosListComponent } from "../../../comentarios/components/comentarios-list/comentarios-list.component";
 import { ComentarHiloComponent } from "../../components/comentar-hilo/comentar-hilo.component";
 import { HiloComentariosComponent } from "../../components/hilo-comentarios/hilo-comentarios.component";
-import { Comentario } from '../../../comentarios/interface/comentario.interface';
-import { HttpClient } from '@angular/common/http';
 import { HiloPageService } from '../../services/hilo-page.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -13,15 +9,21 @@ import { HeaderComponent } from "../../../application/components/header/header.c
 import { ComentarioComponent } from "../../../comentarios/components/comentarios-list/comentario/comentario.component";
 import { VerRegistrosDeUsuarioDialogComponent } from "../../../moderacion/components/ver-registros-de-usuario-dialog/ver-registros-de-usuario-dialog.component";
 import { DialogComponent } from "../../../../shared/components/dialog/dialog.component";
+import { HiloSignalrService } from '../../services/hilo-signalr.service';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'hilo-page',
-  imports: [HiloBodyComponent, ComentarHiloComponent, HiloComentariosComponent, CommonModule, HeaderComponent, ComentarioComponent, VerRegistrosDeUsuarioDialogComponent, DialogComponent],
+  imports: [HiloBodyComponent, CdkScrollable, ComentarHiloComponent, HiloComentariosComponent, CommonModule, HeaderComponent, ComentarioComponent, VerRegistrosDeUsuarioDialogComponent, DialogComponent],
   templateUrl: './hilo-page.component.html',
   styleUrl: './hilo-page.component.css',
 })
-export class HiloPageComponent implements OnInit {
+export class HiloPageComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    this.signalR.stop();
 
+    this.service.reiniciar();
+  }
 
   service = inject(HiloPageService);
 
@@ -43,10 +45,27 @@ export class HiloPageComponent implements OnInit {
 
   route = inject(ActivatedRoute);
 
+  signalR = inject(HiloSignalrService)
+
+  onHiloComentado = effect(()=>{
+    if(this.signalR.onHiloComentado()) {
+      this.service.agregarComentario(this.signalR.onHiloComentado()!);
+    }
+  })
+
+  onHiloEliminado = effect(()=>{
+    if(this.signalR.onComentarioEliminado()) {
+      this.service.eliminarComentario(this.signalR.onComentarioEliminado()!);
+    }
+  })
+
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.service.cargarHilo(id).subscribe(() => {
+
+        this.signalR.start(id);
+
         this.route.queryParams.subscribe(params => {
           setTimeout(() => {
             const comentario: string | undefined = params['comentario'];
@@ -56,12 +75,10 @@ export class HiloPageComponent implements OnInit {
               }
               else {
                 this.scrollToComentario(comentario);
-
               }
             }
           }, 500);
         });
-
       });
     }
   }
