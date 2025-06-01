@@ -12,4 +12,13 @@ export class NotificacionComponent {
   notificacion = input.required<Notificacion>();
 
   onTap = output<void>();
+
+  static TIPOS_NOTIFICACION : Map<string, string> = new Map<string, string>([
+    ['ComentarioRespondido', 'Han respondido tu comentario'],
+    ['HiloComentado', 'Han comentado tu hilo'],
+    ['HiloSeguidoComentado', 'Han comentado un hilo que sigues'],
+  ])
+  get tipo () : string {
+    return NotificacionComponent.TIPOS_NOTIFICACION.get(this.notificacion().tipo) || 'Notificación desconocida';
+  }
 }

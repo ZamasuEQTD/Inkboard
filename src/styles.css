@@ -13,6 +13,8 @@
 
 
     --color-background-base: oklab(0.964355 0.000418752 -0.00125641);
+
+    --color-skeleton: var(--color-stone-200);
 }
 
 @theme {

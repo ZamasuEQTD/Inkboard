@@ -4,7 +4,7 @@ import { FiltrosDeHiloComponent } from "../filtros-de-hilo/filtros-de-hilo.compo
 import { RouterModule } from '@angular/router';
 import {Overlay, OverlayModule} from '@angular/cdk/overlay';
 import { CdkPortal, PortalModule } from '@angular/cdk/portal';
-import { NotificacionesButtonComponent } from "./components/notificaciones-button/notificaciones-button.component";
+import { NotificacionesButtonComponent } from "../../../notificaciones/components/notificaciones-button/notificaciones-button.component";
 import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({

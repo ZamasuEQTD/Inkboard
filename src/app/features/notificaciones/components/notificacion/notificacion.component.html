@@ -1,4 +1,4 @@
-<div class="flex-col p-2 rounded-xl border-1 border-input-border shadow-sm cursor-pointer" (click)="onTap.emit()">
+<!-- <div class="flex-col p-2 rounded-xl border-1 border-input-border shadow-sm cursor-pointer" (click)="onTap.emit()">
     <div class="flex flex-row gap-x-2">
       <div class="size-14 rounded-md flex-shrink-0 overflow-hidden ">
         <img [src]="this.notificacion().hilo.portada" alt="" class="w-full h-full object-cover" />
@@ -30,4 +30,27 @@
     </div>
 </div>
 
-       
+        -->
+
+
+@let notificacion = this.notificacion();
+<div class="cursor-pointer px-4 py-2 flex flex-col  hover:bg-background-base" (click)="onTap.emit()">
+  <div class="flex flex-row">
+
+    <img [src]="notificacion.hilo.portada" alt="" class="size-12 rounded-lg object-cover">
+
+    <div class="flex flex-col ml-4">
+      <span class="font-semibold text-sm">{{tipo}}</span>
+      <span class="text-xs">
+        <span >{{notificacion.hilo.titulo}}</span>
+        @if(notificacion.comentario_respondido_tag){
+          <span class="font-medium"> › {{notificacion.comentario_respondido_tag}}</span>
+        }
+      </span>
+    </div>
+  </div>
+
+  <span class="text-sm line-clamp-3 break-words">{{notificacion.contenido}}</span>
+
+  <span class="text-xs text-light-muted">Hace {{ this.notificacion().fecha | tiempoTranscurrido }}</span>
+</div>

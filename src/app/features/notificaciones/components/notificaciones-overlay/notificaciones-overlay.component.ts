@@ -9,6 +9,7 @@ import { NotificacionComponent } from "../notificacion/notificacion.component";
 import { NotificacionesService } from '../../service/notificaciones.service';
 import { Router } from '@angular/router';
 import { OverlayRef } from '@angular/cdk/overlay';
+import { MisNotificacionesService } from '../../service/mis-notificaciones.service';
 
 export const NOTIFICACIONES_DATA = new InjectionToken<any>('NotificacionesData');
 
@@ -29,8 +30,6 @@ export class NotificacionesOverlayComponent  implements OnInit, OnDestroy{
   overlay = inject(OverlayRef);
 
   ngOnInit(): void {
-    this.cargarNotificaciones();
-
     document.addEventListener('click',this.onClickOutside.bind(this));
   } 
 
@@ -45,22 +44,18 @@ export class NotificacionesOverlayComponent  implements OnInit, OnDestroy{
   close(){
     this.overlay.dispose();
   }
-  notificaciones = signal<Notificacion []>([])
 
-  private readonly service = inject(NotificacionesService);
+  private readonly service = inject(MisNotificacionesService);
 
   private readonly router = inject(Router)
 
-  cargarNotificaciones() {
-    this.service.getNotificaciones().subscribe((notificaciones) =>
-        this.notificaciones.update((n) => [...n, ...notificaciones])
-    );
+
+  get notificaciones() {
+    return this.service.notificaciones();
   }
 
   leer(notificacion: Notificacion){
-    this.service.leerNotificacion(notificacion.id).subscribe(()=> {
-      this.notificaciones.update((notis)=> notis.filter((n)=>n.id != notificacion.id));
-
+    this.service.leer(notificacion.id).subscribe(()=> {
       this.router.navigate(["/hilo/",notificacion.hilo.id], {
         queryParams:{
           comentario: notificacion.comentario_respuesta_tag

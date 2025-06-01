@@ -14,8 +14,10 @@ export class NotificacionesService {
   private readonly http = inject(HttpClient)
 
 
-  getNotificaciones(){
-    return this.http.get<ApiResponse<Notificacion[]>>('/api/notificaciones').pipe(map((response) => response.data));
+  getNotificaciones(ultimaNotificacion? : Date){
+    return this.http.get<ApiResponse<Notificacion[]>>('/api/notificaciones', {
+      params: ultimaNotificacion ? { ultimaNotificacion: ultimaNotificacion.toISOString() } : {}
+    }).pipe(map((response) => response.data));
   }
 
   leerNotificacion(id:string){

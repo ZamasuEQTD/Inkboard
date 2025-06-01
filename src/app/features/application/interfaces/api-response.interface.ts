@@ -1,3 +1,3 @@
-export interface ApiResponse<T> {
+export interface ApiResponse<T = unknown> {
   data: T;
 }
