@@ -6,7 +6,6 @@ import {Dialog} from '@angular/cdk/dialog';
 import { SeleccionarSubcategoriaDialogComponent } from '../../../categorias/components/seleccionar-subcategoria-dialog/seleccionar-subcategoria-dialog.component';
 import { Subcategoria } from '../../../categorias/interfaces/categoria.interface';
 
-
 @Component({
   selector: 'app-filtros-de-hilo',
   imports: [
@@ -49,7 +48,7 @@ export class FiltrosDeHiloComponent  implements OnInit{
 
   router = inject(Router);
 
-  filtrarHilos(){
+  buscarHilos(){
     let titulo = this.form.value.titulo != "" ? this.form.value.titulo : undefined;
 
     let subcategoria = this.form.value.subcategoria?.id

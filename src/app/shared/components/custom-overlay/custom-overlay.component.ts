@@ -14,11 +14,25 @@ export class CustomOverlayComponent {
 
   overlayRef?: OverlayRef
 
-  show(overlayRef: OverlayRef){
+  show(overlayRef: OverlayRef, config: OverlayConfiguration = { closeOnClickOutside: true, closeOnScroll: true }) {
 
     this.overlayRef = overlayRef
 
     const dispose = this.close.bind(this)
+
+    overlayRef.overlayElement.classList.add("bg-red-500");
+
+    const onDocumentClick = (event: MouseEvent) => {
+      if (this.overlayRef && !this.overlayRef.overlayElement.contains(event.target as Node)) {
+        dispose();
+      }
+    };
+
+    document.addEventListener('mousedown', onDocumentClick);
+
+    overlayRef.detachments().subscribe(() => {
+      document.removeEventListener('mousedown', onDocumentClick);
+    });
 
     overlayRef.attach(this.portal)  
 
@@ -29,7 +43,6 @@ export class CustomOverlayComponent {
     })
 
     overlayRef.detachments().subscribe(() => {
-
       document.removeEventListener('scroll', dispose);
     });
   }
@@ -37,4 +50,10 @@ export class CustomOverlayComponent {
   close(){
     this.overlayRef?.dispose()
   }
+}
+
+
+interface OverlayConfiguration {
+  closeOnClickOutside: boolean;
+  closeOnScroll: boolean;
 }

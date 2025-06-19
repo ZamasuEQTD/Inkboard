@@ -1,0 +1,23 @@
+<span class="break-words">
+  @for (section of this.sections; track $index) {
+
+    @switch (section.type) {
+      @case ("text") {
+        <span>{{section.content}}</span>
+      }
+      @case ("link") {
+        <a class="text-blue-600 cursor-pointer" target="_blank" [href]="section.content">{{section.content}}</a>
+      }
+      @case ("tag") {
+        @let tag = section.content.slice(2);
+
+        <app-comentario-tag 
+          [tag]="section.content" 
+          (onMouseEnter)="this.onTagMouseEnter.emit(tag)"
+          (onMouseExit)="this.onTagMouseExit.emit(tag)"
+          (onTap)="this.onTagTap.emit(tag)"  
+        />
+      }
+    }
+  }
+</span>

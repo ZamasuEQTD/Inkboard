@@ -10,10 +10,12 @@ import { BlurAdvertenciaComponent } from "../../../../../shared/components/blur-
 import { OpcionesDeComentarioButtonComponent } from "./opciones-de-comentario-button/opciones-de-comentario-button.component";
 import { HiloPageService } from '../../../../hilos/services/hilo-page.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TextoComponent } from "./texto/texto.component";
+import { TagComponent } from "./tag/tag.component";
 
 @Component({
   selector: 'app-comentario',
-  imports: [CommonModule, ColorComponent, AutorRolePipe, TiempoTranscurridoPipe, MediaBoxComponent, BlurAdvertenciaComponent, OpcionesDeComentarioButtonComponent],
+  imports: [CommonModule, ColorComponent, AutorRolePipe, TiempoTranscurridoPipe, MediaBoxComponent, BlurAdvertenciaComponent, OpcionesDeComentarioButtonComponent, TextoComponent, TagComponent],
   templateUrl: './comentario.component.html',
   styleUrl: './comentario.component.css',
 })

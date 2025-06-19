@@ -50,10 +50,7 @@
 
   <div id="respuestas-comentario-wrap" class="flex flex-wrap gap-x-0.5 cursor-pointer">
     @for (tag of comentario().respondido_por; track $index) {
-    <div class="cursor-pointer" (click)="irComentario(tag)" (mouseenter)="mostrarRespuesta(tag)"
-      (mouseleave)="ocultarRespuesta()">
-      <span class=" text-blue-600 text-sm">>>{{tag}}</span>
-    </div>
+      <app-comentario-tag [tag]="'>>' + tag" (onTap)="irComentario(tag)" (onMouseExit)="ocultarRespuesta()" (onMouseEnter)="mostrarRespuesta(tag)"/>
     }
   </div>
 
@@ -61,25 +58,33 @@
   <div class="flex justify-center">
 
     <app-blur-advertencia class="rounded-xl overflow-hidden" [(spoiler)]="comentario().media!.spoiler">
-      <app-media-box [media]="comentario().media!" [dimensionbleOptions]="{
-                    size: {
-                        maxHeight: '500px',
-                    }
-                }">
-      </app-media-box></app-blur-advertencia>
+      <app-media-box 
+        [media]="comentario().media!" 
+        [dimensionbleOptions]="{
+          size: {
+            maxHeight: '500px',
+          }
+        }">
+      </app-media-box>
+    </app-blur-advertencia>
 
   </div>
   }
-  <div>
 
-    <span class="break-words">{{comentario().texto}}</span>
-
-  </div>
+  <app-comentario-texto 
+    [comentario]="comentario()"
+    (onTagTap)="irComentario($event)"
+    (onTagMouseExit)="ocultarRespuesta()" 
+    (onTagMouseEnter)="mostrarRespuesta($event)"
+  />
 
 </div>
 
 
 @if (this.hayComentarioSeleccionado()) {
-<app-comentario class="fixed  p-2 bg-white min-w-[450px] shadow-lg rounded-md z-50 right-[55.5%]"
-  [style.top.px]="hoverPosition.top" [comentario]="this.comentarioSeleccionado()!" />
+<app-comentario 
+  class="fixed  p-2 bg-white min-w-[450px] shadow-lg rounded-md z-50 right-[55.5%] max-w-[30%]"
+  [style.top.px]="hoverPosition.top" 
+  [comentario]="this.comentarioSeleccionado()!"
+/>
 }
